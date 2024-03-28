@@ -1,5 +1,6 @@
 package kr.co.moviespring.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.moviespring.web.entity.OnelineReview;
+import kr.co.moviespring.web.movieapi.DailyBoxEntity;
+import kr.co.moviespring.web.movieapi.MovieAPI;
+import kr.co.moviespring.web.movieapi.MovieInfoEntity;
 import kr.co.moviespring.web.entity.Movie;
 import kr.co.moviespring.web.service.CommentService;
 import kr.co.moviespring.web.service.MovieService;
@@ -28,6 +32,36 @@ public class MovieController {
     @GetMapping("list")
     public String list(Model model){
         List <Movie> list = movieService.getList();
+
+        //영화 받아오기 테스트
+        List <Movie> mlist = new ArrayList<>();
+        MovieAPI api = new MovieAPI();
+        List<MovieInfoEntity> miList = new ArrayList<>();
+        List<DailyBoxEntity> dbeList = new ArrayList<>();
+        dbeList = api.requestBoxDailly();
+        for (DailyBoxEntity dailyBoxEntity : dbeList) {
+            MovieInfoEntity movieInfo;
+            movieInfo = api.requestMovieInfo(dailyBoxEntity.getMovieCd());
+            miList.add(movieInfo);
+
+            Movie m = new Movie();
+            m.setId(Long.parseLong(dailyBoxEntity.getMovieCd()));
+            m.setTotalBoxoffice(dailyBoxEntity.getRank());
+            m.setDailyAudience(dailyBoxEntity.getAudiCnt());
+            m.setTotalAudience(dailyBoxEntity.getAudiAcc());
+            m.setTotalSales(Long.parseLong(dailyBoxEntity.getSalesAcc()));
+            m.setKorName(movieInfo.getMovieNm());
+            m.setEngName(movieInfo.getMovieNmEn());
+            m.setReleaseDate(movieInfo.getOpenDt());
+            m.setReleaseNationId(movieInfo.getNationNm());
+            m.setGenreId(movieInfo.getGenreNm());
+
+            mlist.add(m);
+        }
+
+        
+
+
         model.addAttribute("list", list);
         return "movie/list";
     }

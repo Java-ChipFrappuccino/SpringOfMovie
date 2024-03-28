@@ -9,8 +9,8 @@ import kr.co.moviespring.web.entity.Movie;
 @Mapper
 public interface MovieRepository {
     
+    void save(Movie movie);
     List <Movie> findAll();
 
-    void save(Movie movie);
     Movie findById(Long id);
 }
