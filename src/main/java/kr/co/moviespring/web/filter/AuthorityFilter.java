@@ -2,14 +2,12 @@ package kr.co.moviespring.web.filter;
 
 import java.io.IOException;
 
-import org.springframework.stereotype.Component;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.annotation.WebFilter;
 
 // @Component("/") //스프링이 지원하기 때문에 쓰지않음
 public class AuthorityFilter implements Filter{

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="inc/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main layout:fragment="main">
+    <section class="d:flex jc:space-around">
+
+            <div class="w:9 max-w:9 mx:5 m-bottom:10">
+                <div class="d:flex flex-direction:row">
+                    <h1 class="fw:bold fs:8 bd-bottom bd-w:2 bd-color:base-10 display:inline-block">
+                      회원가입
+                    </h1>
+                    <span class="flex-grow:1 bd-bottom bd-w:2"></span>
+                </div>
+                <form action="regist" method="post" class="n-form n-form-type:shadow n-form-type:outline-none d:flex flex-direction:column">
+                    <label for="user-id">아이디 입력</label>
+                    <input type="text" id="user-id" name="userId" src="" alt="" required>
+                    
+                    <label for="password">비밀번호 입력</label>
+                    <input type="text" id="password" name="pwd" src="" alt="" required>
+
+                    <label for="nickname">닉네임 입력</label>
+                    <input type="text" id="nickname" name="nickname" src="" alt="" required>
+                    
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name" src="" alt="" required>
+
+                    <label for="age">나이</label>
+                    <input type="text" id="age" name="age" src="" alt="" required>
+                    
+                    <label for="email">이메일 입력</label>
+                    <input type="text" id="email" name="email" src="" alt="" required>
+                    
+                    <button class="n-btn m-top:8" type="submit">회원가입</button>
+                </form>
+            </div>
+    </section>
+</main>
+</body>
+</html>

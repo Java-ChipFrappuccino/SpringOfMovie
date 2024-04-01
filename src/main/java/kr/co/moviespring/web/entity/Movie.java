@@ -29,4 +29,8 @@ public class Movie {
     private String trailerUrl;//이건(트레일러영상) tmdb
     private String releaseNationId;//영화상세정보(제작국가) > nations/nationNm
     private String genreId;//영화상세정보(장르) > genres/genreNm
+    private String showTime;//영화상세정보(상영시간) > showTm":"131"
+    private String watchGrade;//"audits":[{"auditNo":"2012-F610","watchGradeNm":"15세이상관람가"}]"
+    
+    
 }

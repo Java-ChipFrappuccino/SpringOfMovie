@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.moviespring.web.memberRepository.MemberRepository">
+
+  <!-- 로그인 -->
+  <select id="findByMembername" resultType="Member">
+    select * from member where user_id = #{userId};
+  </select>
+
+  <!-- 회원가입 -->
+  <insert id="regist">
+        insert into member(user_id,pwd,name,nickname,age,email) 
+        values (#{userId},#{pwd},#{name},#{nickname},#{age},#{email});
+  </insert>
+
+</mapper>

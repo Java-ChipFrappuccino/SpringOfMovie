@@ -19,7 +19,7 @@
 .header .top_nav {
     width: 100%;
     height: 54px;
-    background-color: rgba(255, 255, 255, 0.87);
+    background-color: rgba(249, 249, 249, 0.87);
 }
 
 .header .top_nav .top_nav_container {
@@ -80,17 +80,23 @@
 
 /* Bottom Nav*/
 .bottom_nav {
-    border-top: 1px solid #e4e5e4;
-    border-bottom: 1px solid #e4e5e4;
+    /*border-top: 1px solid #e4e5e4;*/
+    /*border-bottom: 1px solid #e4e5e4;*/
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
 }
 
 .bottom_nav ul {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .bottom_nav ul li {
     padding: 12px 60px 16px 0;
+}
+.bottom_nav ul li:nth-child(1) {
+    padding-left: 15px;
 }
 
 /* Media Queries*/

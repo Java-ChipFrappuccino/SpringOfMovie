@@ -1,14 +1,22 @@
 /* movie/list 반응형 */
 @media only screen and (min-width: 840px){
     /* 중간 크기 화면용 스타일 작성 */
-    .media{
+    .main-header{
         display: flex;
         justify-content: center;
+        align-items: center;
+        /* //가로 드래그 숨김설정 */
+        overflow: hidden; 
+    }
+
+    .media{
+        max-width: 100%;
+        overflow: hidden;
     }
 
     .content-list{
 
-        padding:right 30px;
+        /*padding-right: 30px;*/
     }
 
     .media-pading{

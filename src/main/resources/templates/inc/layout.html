@@ -1,38 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <!-- css -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/newtil-css@0.1.48/dist/style.css" />
-    <link href="/css/components/header.css" rel="stylesheet" type="text/css">
-    <link href="/css/components/footer.css" rel="stylesheet" type="text/css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/newtil-css@0.1.49/dist/style.css"
+    />
+    <link href="/css/components/header.css" rel="stylesheet" type="text/css" />
+    <link href="/css/components/footer.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/css/root.css" />
     <!-- icon -->
-    <script src="https://kit.fontawesome.com/cb7051596d.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/cb7051596d.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      body {
+        font-family: "Noto Sans", sans-serif;
+      }
+    </style>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <!-- 헤더부분 -->
     <div th:replace="~{inc/header}">이거 나오면 망함</div>
-   
+
     <!-- 메인부분 -->
     <div layout:fragment="main">망</div>
 
     <!-- 푸터부분 -->
     <div th:replace="~{inc/footer}">이거 나오면 망함</div>
-
-    
-</body>
-
+  </body>
 </html>

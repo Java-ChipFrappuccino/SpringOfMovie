@@ -16,7 +16,7 @@ public class OnelineReview {
     private Long id;
     private Long movieId;
     private Long memberId;
-    private Date reg_date;
+    private Date regDate;
     private String comments;
     private int memberRate;
 }

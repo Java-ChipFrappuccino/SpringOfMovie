@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="inc/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        section {
+            padding: 100px 0;
+        }
+    </style>
+</head>
+<body>
+    <main layout:fragment="main">
+    <section class="d:flex flex-direction:column ai:center gap:5">
+        <div class="fs:6 fw:bold">🎉가입이 완료되었습니다!</div>
+        <div class="fs:6 fw:bold">다양한 서비스를 마음껏 즐겨보세요</div>
+        <div><img src="https://dummyimage.com/400x400/000/fff.jpg" alt=""></div>
+            <div>
+                <a href="/index" class="n-btn n-btn-color:base">홈으로</a>
+            </div>
+    </section>
+    </main>
+</body>
+</html>

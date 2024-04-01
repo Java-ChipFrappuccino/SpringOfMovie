@@ -8,6 +8,10 @@ import kr.co.moviespring.web.entity.OnelineReview;
 
 @Mapper
 public interface CommentRepository {
-    OnelineReview Save(String comments,int rate,Long movieId);
-    
+    // 한줄평 등록//
+    void save(String comments, int rate, Long movieId);
+
+    // 한줄평 목록//
+    List<OnelineReview> getlist(Long movieId);
+
 }

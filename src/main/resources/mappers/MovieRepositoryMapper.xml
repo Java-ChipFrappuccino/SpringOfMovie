@@ -3,17 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.moviespring.web.repository.MovieRepository">
-	
+	<!-- 영화 목록 -->
 	<select id="findAll" resultType="Movie">
 		select * from movie
     </select>
 
-	
+	<!-- 영화 상세 목록 -->
 	<select id="findById" resultType="Movie">
 		select * from movie
 		where id=#{id}
 	</select>
 
+	<!-- 영화 등록 (임시) -->
 	<insert id="save" parameterType="Movie">
 		INSERT INTO movie (id, kor_name, eng_name, sponsor, release_date, total_rate, total_boxoffice, total_sales, daily_sales, total_audience, daily_audience, movie_intro, poster_url, stillcut_url, trailer_url, release_nation_id, genre_id)
     	VALUES (#{id}, #{korName}, #{engName}, #{sponsor}, #{releaseDate}, #{totalRate}, #{totalBoxoffice}, #{totalSales}, #{dailySales}, #{totalAudience}, #{dailyAudience}, #{movieIntro}, #{posterUrl}, #{stillcutUrl}, #{trailerUrl}, #{releaseNationId}, #{genreId})

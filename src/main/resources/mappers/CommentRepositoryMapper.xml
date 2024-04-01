@@ -4,11 +4,17 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.moviespring.web.repository.CommentRepository">
 	
-	<select id="Save" resultType="OnelineReview">
+  <!-- 한줄평 등록 -->
+	<insert id="save">
         insert into oneline_review (comments,member_id,movie_id,member_rate) 
-        values ('${comments}',1,${movieId},${rate});
-    </select>
+        values (#{comments},1,#{movieId},#{rate});
+  </insert>
 
-
-
+  <!-- 한줄평 목록 -->
+  <select id="getlist" resultType="OnelineReview">
+        select * from oneline_review where movie_id = ${movieId}
+  </select>
+  
+<!--  사용자 고유 id(Long)에서 member의 nickname를 찾아야함
+추후 로그인 기능 구현후에 생각합시다 -->
 </mapper>
