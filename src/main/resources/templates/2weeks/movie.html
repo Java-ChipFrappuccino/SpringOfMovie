@@ -7,6 +7,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/desktop.css">
     <title>2주의 영화 - 영화의봄</title>
+<!--    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" type="text/css" href="/css/components/movie/detail.css">-->
+    <link rel="stylesheet" href="/css/components/movie/list.css">
+    <script src="/js/movie/list.js" defer></script>
+    <script src="/js/movie/detail.js" defer></script>
+    <style>
+        .delete-button {
+            position: relative;
+            bottom: 52px;
+            right: -760px;
+        }
+        .empty-field {
+            /*position: relative;*/
+            /*bottom: -10px;*/
+            /*right: 1086px;*/
+            /*margin-left: 6px;*/
+            /*margin-top: 8px;*/
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .show-and-hide {
+            opacity: 1;
+        }
+
+        .charCount {
+            /*position: relative;*/
+            /*bottom: -10px;*/
+            /*right: 1090px;*/
+        }
+    </style>
 </head>
 
 <body>
@@ -119,7 +150,7 @@
                         <span>1등으로 리뷰를 작성해보세요!</span>
                     </div>
                     <form th:action="${myReview != null ? 'comment/edit/'+movie.movieCd : 'comment'}" action="comment"
-                        method="POST">
+                        method="POST" class="reg-form">
                         <div class="display:flex justify-content:space-between fs:4">
                             <input type="text" name="movieCd" th:value="${movie.movieCd}" class="d:none">
                             <select class="n-select" id="rate" name="rate" type="">
@@ -148,13 +179,16 @@
 
                             <a href="/user/signin">
                                 <button sec:authorize="isAnonymous()" type="button"
-                                class="n-btn n-btn-type:filled m:2 submit-button">로그인하기</button>
+                                class="n-btn n-btn-type:filled m:2 submit-buttons">로그인하기</button>
                             </a>
                             <!--회원 접속시-->
                             <textarea sec:authorize="isAuthenticated()"
                                 th:text="${myReview != null ? myReview.comments : ''}" id="comments" name="comments"
-                                class="width:10p height:2 p:2 n-textbox n-textbox-status:success" type="text"
-                                placeholder="내용을 입력해주세요."></textarea>
+                                class="width:10p height:2 p:2 n-textbox reg-textarea n-textbox-status:success" type="text"
+                                placeholder="내용을 입력해주세요." maxlength="50"></textarea>
+                            <div class="mr:auto mt:1">
+                                <span sec:authorize="isAuthenticated()" class="charCount ml:2 color:base-6">0 / 50</span>
+                                <span sec:authorize="isAuthenticated()" class="color:accent-1 empty-field">공백은 입력할 수 없습니다</span></div>
                             <div class="d:flex">
                                 <!--평가 or 수정버튼-->
                                 <button sec:authorize="isAuthenticated()" type="submit"
@@ -169,7 +203,7 @@
                        <input type="text" name="movieCd" th:value="${movie.movieCd}" class="d:none">
                        <button sec:authorize="isAuthenticated()" type="submit"
                        th:if="${myReview != null}"
-                       class="n-btn n-btn-type:filled m:2 submit-button n-btn-color:accent">삭제하기
+                       class="n-btn n-btn-type:filled m:2 delete-button n-btn-color:accent">삭제하기
                    </button>
                    </form>
                     <div class="d:flex jc:center my:4">

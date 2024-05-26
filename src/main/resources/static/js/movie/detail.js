@@ -85,12 +85,13 @@ function toggleContent() {
 // 		}
 // });
 {
+  let form = document.querySelector(".reg-form");
   let deleteButton = document.querySelector(".delete-button");
 
   if (deleteButton) {
     //게시글 삭제 버튼 클릭시
     deleteButton.onclick = function (e) {
-      e.preventDefault();
+      // e.preventDefault();
       Swal.fire({
         title: "정말 삭제하시겠습니까?",
         text: "삭제한 후에는 복구가 불가능합니다 🥲",
@@ -125,6 +126,7 @@ function toggleContent() {
   let emptyBox = document.querySelector(".empty-field");
   if (submitButton) {
     submitButton.onclick = function (e) {
+      // e.preventDefault();
       let inputText = inputField.value;
       // 입력값이 공백인지 확인
       if (inputText.trim() === "") {

@@ -134,9 +134,9 @@
         }
 
         .empty-field {
-            position: relative;
-            bottom: -10px;
-            right: 1086px;
+            /*position: relative;*/
+            /*bottom: -10px;*/
+            /*right: 1086px;*/
             /*margin-left: 6px;*/
             /*margin-top: 8px;*/
             opacity: 0;
@@ -147,9 +147,9 @@
         }
 
         .charCount {
-            position: relative;
-            bottom: -10px;
-            right: 1090px;
+            /*position: relative;*/
+            /*bottom: -10px;*/
+            /*right: 1090px;*/
         }
 
         .delete-button {
@@ -286,7 +286,7 @@
                         <span>한줄평을 남겨주세요!</span>
                     </div>
                     <form th:action="${myReview != null ? 'comment/edit/'+movie.id : 'comment'}" action="comment"
-                        method="POST">
+                          method="POST">
                         <div class="display:flex justify-content:space-between fs:4">
                             <input type="text" name="movieid" th:value="${movie.id}" class="d:none">
                             <!-- <span class="icon icon-size:5 icon:hand_coins">아이콘</span> -->
@@ -298,50 +298,50 @@
                                 <option th:selected="${myReview != null and myReview.memberRate == 5000}" value="5000">
                                     5,000원</option>
                                 <option th:selected="${myReview != null and myReview.memberRate == 10000}"
-                                    value="10000">10,000원</option>
+                                        value="10000">10,000원</option>
                                 <option th:selected="${myReview != null and myReview.memberRate == 15000}"
-                                    value="15000">15,000원</option>
+                                        value="15000">15,000원</option>
                                 <option th:selected="${myReview != null and myReview.memberRate == 20000}"
-                                    value="20000">20,000원</option>
+                                        value="20000">20,000원</option>
                                 <option th:selected="${myReview != null and myReview.memberRate == 25000}"
-                                    value="25000">25,000원</option>
+                                        value="25000">25,000원</option>
                                 <option th:selected="${myReview != null and myReview.memberRate == 30000}"
-                                    value="30000">30,000원</option>
+                                        value="30000">30,000원</option>
                             </select>
                         </div>
                         <div class="display:flex align-items:flex-end flex-direction:column">
                             <!--비회원 접속시-->
                             <textarea sec:authorize="isAnonymous()" disabled
-                                class="anonymous-font-size width:10p height:2 p:2 n-textbox n-textbox-status:success"
-                                type="text" placeholder="로그인후 이용하실수 있습니다."></textarea>
+                                      class="anonymous-font-size width:10p height:2 p:2 n-textbox n-textbox-status:success"
+                                      type="text" placeholder="로그인후 이용하실수 있습니다."></textarea>
 
                             <button sec:authorize="isAnonymous()" disabled style="cursor: not-allowed" type="button"
-                                class="n-btn n-btn-type:filled m:2 submit-button">평가완료</button>
+                                    class="n-btn n-btn-type:filled m:2 submit-button">평가완료</button>
                             <!--회원 접속시-->
                             <textarea sec:authorize="isAuthenticated()"
-                                th:text="${myReview != null ? myReview.comments : ''}" id="comments" name="comments"
-                                class="width:10p height:2 p:2 n-textbox n-textbox-status:success reg-textarea" type="text"
-                                placeholder="내용을 입력해주세요." maxlength="200"></textarea>
-                            <div class="">
-                                <span class="charCount ml:2 color:base-6">0 / 200</span>
+                                      th:text="${myReview != null ? myReview.comments : ''}" id="comments" name="comments"
+                                      class="width:10p height:2 p:2 n-textbox n-textbox-status:success reg-textarea" type="text"
+                                      placeholder="내용을 입력해주세요." maxlength="50"></textarea>
+                            <div class="mr:auto mt:1">
+                                <span class="charCount ml:2 color:base-6">0 / 50</span>
                                 <span class="color:accent-1 empty-field">공백은 입력할 수 없습니다</span></div>
                             <div class="d:flex">
                                 <!--평가 or 수정버튼-->
                                 <button sec:authorize="isAuthenticated()" type="submit"
-                                th:text="${myReview != null ? '수정완료' : '평가완료'}"
-                                class="n-btn n-btn-type:filled m:2 submit-button">평가하기
+                                        th:text="${myReview != null ? '수정완료' : '평가완료'}"
+                                        class="n-btn n-btn-type:filled m:2 submit-button">평가하기
                                 </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-                <form class="d:inline-block" th:action="${myReview != null ? 'comment/delete/'+movie.id : 'comment'}" action="comment" method="POST">
-                     <!--삭제요청 버튼-->
-                    <input type="text" name="movieid" th:value="${movie.id}" class="d:none">
-                    <button sec:authorize="isAuthenticated()" type="submit"
-                    th:if="${myReview != null}"
-                    class="n-btn n-btn-type:filled m:2 delete-button submit-button n-btn-color:accent">삭제하기
-                </button>
-                </form>
+                    </form>
+                    <form class="d:inline-block" th:action="${myReview != null ? 'comment/delete/'+movie.id : 'comment'}" action="comment" method="POST">
+                        <!--삭제요청 버튼-->
+                        <input type="text" name="movieid" th:value="${movie.id}" class="d:none">
+                        <button sec:authorize="isAuthenticated()" type="submit"
+                                th:if="${myReview != null}"
+                                class="n-btn n-btn-type:filled m:2 delete-button n-btn-color:accent">삭제하기
+                        </button>
+                    </form>
                 </div>
                 <div class="padding-left:2 padding-right:2 display:flex fl-dir:column gap:2">
                     <!--                <span class="margin-right:auto icon icon-size:5 icon:hand_coins">아이콘</span>-->
