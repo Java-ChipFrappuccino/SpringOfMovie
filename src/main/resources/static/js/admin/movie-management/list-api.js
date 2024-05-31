@@ -8,46 +8,48 @@ document.addEventListener('DOMContentLoaded', function() {
   // 각 검색 버튼에 이벤트 리스너 등록
   buttons.forEach(button => {
       button.addEventListener('click', async function(e) {
-          // 클릭된 버튼이 속한 섹션 요소 가져오기
-          const section = this.closest('section');
-          // 섹션 요소에서 영화 이름 가져오기
-          const movieName = section.querySelector('h1').innerText;
-          const movieNameEn = section.querySelector('h2').innerText;
-          console.log(movieName);
-          let movie3Data = {};
-          movie3Data.movieCd = e.target.getAttribute('data-movieCd');
-          movie3Data.movieNm = e.target.getAttribute('data-movieNm');
-          movie3Data.openDt = e.target.getAttribute('data-openDt');
-          movie3Data.repGenreNm = e.target.getAttribute('data-repGenreNm');
-          movie3Data.audiAcc = e.target.getAttribute('data-audiAcc');
-          movie3Data.movieNmEn = e.target.getAttribute('data-movieNmEn');
-          movie3Data.nationAlt = e.target.getAttribute('data-nationAlt');
-          movie3Data.prdYear = e.target.getAttribute('data-prdYear');
-          movie3Data.directorNm = e.target.getAttribute('data-directorNm');
-          movie3Data.companyCd = e.target.getAttribute('data-companyCd');
 
-          console.log(movie3Data);
+        // 클릭된 버튼이 속한 섹션 요소 가져오기
+        const section = this.closest('section');
+        // 섹션 요소에서 영화 이름 가져오기
+        const movieName = section.querySelector('h1').innerText;
+        const movieNameEn = section.querySelector('h2').innerText;
+        console.log(movieName);
+        let movie3Data = {};
+        movie3Data.movieCd = e.target.getAttribute('data-movieCd');
+        movie3Data.movieNm = e.target.getAttribute('data-movieNm');
+        movie3Data.openDt = e.target.getAttribute('data-openDt');
+        movie3Data.repGenreNm = e.target.getAttribute('data-repGenreNm');
+        movie3Data.audiAcc = e.target.getAttribute('data-audiAcc');
+        movie3Data.movieNmEn = e.target.getAttribute('data-movieNmEn');
+        movie3Data.nationAlt = e.target.getAttribute('data-nationAlt');
+        movie3Data.prdYear = e.target.getAttribute('data-prdYear');
+        movie3Data.directorNm = e.target.getAttribute('data-directorNm');
+        movie3Data.companyCd = e.target.getAttribute('data-companyCd');
 
-          try {
-              // 한글로 검색
-              let movies = await searchMovies(movieName);
-              // 검색 결과가 없을 경우 영어로 다시 검색
-              if (!movies || movies.length === 0) {
-                  movies = await searchMovies(movieNameEn);
-              }
+        console.log(movie3Data);
 
-              if (movies && movies.length > 0) {
-                  // 검색된 영화 정보를 모달에 표시
-                  displayMovies(movies, movie3Data);
-                  modal.style.display = 'block'; // 모달 열기
-              } else {
-                  // 검색된 영화가 없는 경우 경고 표시
-                  console.error('No movie found with name:', movieName);
-                  alert("영화를 찾지 못했습니다.");
-              }
-          } catch (error) {
-              console.error('Error during movie search:', error);
-          }
+        try {
+            // 한글로 검색
+            let movies = await searchMovies(movieName);
+            // 검색 결과가 없을 경우 영어로 다시 검색
+            if (!movies || movies.length === 0) {
+                movies = await searchMovies(movieNameEn);
+            }
+
+            if (movies && movies.length > 0) {
+                // 검색된 영화 정보를 모달에 표시
+                displayMovies(movies, movie3Data);
+                modal.style.display = 'block'; // 모달 열기
+            } else {
+                // 검색된 영화가 없는 경우 경고 표시
+                console.error('No movie found with name:', movieName);
+                alert("영화를 찾지 못했습니다.");
+            }
+        } catch (error) {
+            console.error('Error during movie search:', error);
+        }
+    
       });
   });
 
@@ -147,26 +149,29 @@ function displayMovies(movies, movie3Data) {
       movieItem.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const formData = new FormData(movieItem);
+        
+        if (confirm("해당 영화를 등록하시겠습니까?")){
+            const formData = new FormData(movieItem);
 
-        fetch(movieItem.getAttribute('action'), {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.status === 409) {
-                return response.text().then(text => {
-                    alert(text); // "이미 존재하는 영화입니다." 메시지 표시
-                });
-            } else if (response.status === 201) {
-                return response.text().then(text => {
-                    alert(text); // "영화가 성공적으로 추가되었습니다." 메시지 표시
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            fetch(movieItem.getAttribute('action'), {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.status === 409) {
+                    return response.text().then(text => {
+                        alert(text); // "이미 존재하는 영화입니다." 메시지 표시
+                    });
+                } else if (response.status === 201) {
+                    return response.text().then(text => {
+                        alert(text); // "영화가 성공적으로 추가되었습니다." 메시지 표시
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
       });
       movieListDiv.appendChild(movieItem);
   });

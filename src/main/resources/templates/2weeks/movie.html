@@ -114,7 +114,7 @@
 
                 <section th:if="${movie.voteCount != 0}">
                     <h1 class="d:none">한줄 평</h1>
-                    <div class="d:flex mb:5">
+                    <div class="d:flex mb:5 bd-top py:4">
                         <h1 class="pl:1 fw:3 fs:5 section-font border-left bd-color:main-2 bd-w:3  mr:auto">한줄 평
                             <span class="fs:3 fw:2 color:base-10"
                                 th:with="formattedSize=${reviews.size() > 999 ? #numbers.formatInteger(reviews.size(),3,'COMMA') : reviews.size()}"
