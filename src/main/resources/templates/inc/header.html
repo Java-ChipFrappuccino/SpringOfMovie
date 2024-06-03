@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<header class="header mb:6 color:base-10">
+<header class="header mb:6 color:base-10" th:class="${url != null && url.startsWith('/movie/detail') ? 'hide-header header mb:6 color:base-10' : 'header mb:6 color:base-10'}">
     <div class="top_nav">
         <div class="nav_container top_nav_container">
             <h1 class="logo deco icon:film deco-pos:right"><a href="/">영화의봄</a></h1>
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <section class="media">
+    <section class="media hide-list">
         <h1 class="d:none">헤더</h1>
         <nav class="d:flex n-tabbar">
             <h2 class="d:none">게시판 리스트</h2>

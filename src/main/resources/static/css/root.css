@@ -207,15 +207,6 @@ body{
     /*scrollbar-gutter: stable;*/
 }
 /*상단 이동버튼*/
-/*.top-nav-btn {*/
-/*    width: 32px;*/
-/*    height: 32px;*/
-/*    position: fixed;*/
-/*    background-color: ghostwhite;*/
-/*    z-index: 100;*/
-/*    right: 20px;*/
-/*    bottom: 40px;*/
-/*}*/
 .top-nav-btn {
     position: fixed;
     bottom: 40px;

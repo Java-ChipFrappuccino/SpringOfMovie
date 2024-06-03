@@ -1,5 +1,5 @@
 function toggleContent() {
-  var content = document.querySelector("#content");
+  let content = document.querySelector("#content");
   if (content.classList.contains("toggle-off")) {
     content.classList.remove("toggle-off");
 
@@ -27,22 +27,22 @@ function toggleContent() {
 //공사중
 // window.addEventListener("load", function () {
 
-//     var submitButton =this.document.querySelector("submit-button");
-//     var queryInput = queryForm.getElementsByClassName("query-input")[0];
+//     let submitButton =this.document.querySelector("submit-button");
+//     let queryInput = queryForm.getElementsByClassName("query-input")[0];
 
 // 	function request(url, callback, method) {
 
 // 	        method = method || "GET";
 
-//         	var xhr = new XMLHttpRequest();
+//         	let xhr = new XMLHttpRequest();
 //         	xhr.withCredentials = true;
 
 //         	xhr.onload = function () {
-//         	    var list = JSON.parse(this.responseText);
+//         	    let list = JSON.parse(this.responseText);
 //         	    callback(list);
 //         	};
 
-//         	var q = queryInput.value;
+//         	let q = queryInput.value;
 //         	xhr.open(method, url);
 //         	xhr.send();
 //     	}
@@ -51,7 +51,7 @@ function toggleContent() {
 
 //         	e.preventDefault();
 
-// 	        var url = `http://localhost/api/movie?movieid=${movieid}`;
+// 	        let url = `http://localhost/api/movie?movieid=${movieid}`;
 
 //         	request(url, function (list) {
 //            	bind(list);
@@ -66,7 +66,7 @@ function toggleContent() {
 
 // 		list.forEach(reviews => {
 
-// 			var sectionHTML = `<div class="fw:3 fs:2 padding-x:2 padding-y:3 bg-color:base-2 bd-radius:3 margin-bottom:3">
+// 			let sectionHTML = `<div class="fw:3 fs:2 padding-x:2 padding-y:3 bg-color:base-2 bd-radius:3 margin-bottom:3">
 //             <div class="d:flex flex-direction:column gap:2">
 //                 <div class="d:flex ai:center gap:3">
 //                     <span class="icon icon:user">아이콘</span>
@@ -84,6 +84,79 @@ function toggleContent() {
 // 			});
 // 		}
 // });
+//===============================스크롤시 헤더 반응형으로 생성====================================
+{
+  document.addEventListener('scroll', function() {
+    let header = document.querySelector('.hide-header');
+    let scrollPosition = window.scrollY;
+
+    if (scrollPosition > 100) { // 스크롤 위치를 임의로 100px로 설정
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+}
+//===============================스틸컷이미지 클릭시 모달 생성====================================
+
+{
+  let modal = document.getElementById('imageModal');
+  let images = document.querySelectorAll('.thumbnail');
+  let modalImg = document.getElementById('modalImage');
+  let currentIndex;
+
+  images.forEach((img,index) => {
+    img.onclick = function () {
+      currentIndex = index;
+      modal.style.display = "flex";
+      modalImg.src = this.src;
+      setTimeout(function() {
+        modal.classList.add('show');
+      }, 10); // 작은 지연을 주어 CSS 트랜지션이 제대로 적용되도록 함
+    }
+  })
+  // 모달창 이전,다음 버튼
+  let prev = modal.querySelector('.prev');
+  let next = modal.querySelector('.next');
+
+  prev.onclick = function() {
+    currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+    changeImage();
+  }
+
+  next.onclick = function() {
+    currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+    changeImage();
+  }
+// 이미지 변경하는 함수
+  function changeImage() {
+    modalImg.src = images[currentIndex].src;
+  }
+
+// 모달창 닫기버튼
+  let span = modal.querySelector('.close');
+
+// 모달창 닫기버튼 클릭시 액션
+  span.onclick = function () {
+    modal.style.display = "none";
+    modal.classList.remove('show');
+    setTimeout(function() {
+      modal.style.display = "none";
+    }, 100); // CSS 트랜지션 시간과 동일하게 설정
+  }
+
+// 모달창을 누르거나 이미지 클릭시 닫기 액션
+  window.onclick = function (event) {
+    if (event.target === modal || event.target === modalImg) {
+      modal.style.display = "none";
+      modal.classList.remove('show');
+      setTimeout(function() {
+        modal.style.display = "none";
+      }, 100); // CSS 트랜지션 시간과 동일하게 설정
+    }
+  }
+}
+
 {
   let form = document.querySelector(".reg-form");
   let deleteButton = document.querySelector(".delete-button");

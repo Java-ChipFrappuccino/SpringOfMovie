@@ -164,7 +164,7 @@
     <main layout:fragment="main">
         <section class="d:flex fl-dir:column ai:center">
             <h1 class="d:none">영화 디테일 페이지</h1>
-            <div class="position:relative d:flex overflow:hidden">
+            <div class="position:relative d:flex overflow:hidden w:10p">
                 <img class="main-img" th:src="${movie.mainImgUrl != null ? movie.mainImgUrl : '/image/no_image.jpg'}"
                     src="http://image.tmdb.org/t/p/original/kcrjQkK9XlUe0yD1cZptf4z5h3v.jpg" width="100%" alt="">
                 <div th:if="${movie.logoUrl != null}" class="gradient-overlay"></div>
@@ -467,7 +467,7 @@
                             </button>
                         </div>
                         <section class="of:scroll of-y:hidden scrable-content2">
-                            <h1 class="d:none">컨텐츠</h1>
+                            <h1 class="d:none">트레일러</h1>
                             <div class="d:flex gap:3">
                                 <iframe class="bd-radius:1 d:block fl:none" th:each="trailers : ${trailers}"
                                     width="516px" height="290px" src="" th:src="${trailers.url}" frameborder="0"
@@ -501,13 +501,21 @@
                             </button>
                         </div>
                         <section class="of:scroll of-y:hidden scrable-content3">
-                            <h1 class="d:none">컨텐츠</h1>
+                            <h1 class="d:none">스틸컷</h1>
                             <div class="d:flex gap:3">
-                                <img class="bd-radius:1" th:each="stillcuts : ${stillcuts}"
+                                <img class="bd-radius:1 thumbnail" th:each="stillcuts : ${stillcuts}"
                                     src="https://search.pstatic.net/common?qualit y=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20231102_299%2F1698892733787ApmPu_JPEG%2Fmovie_image.jpg"
                                     th:src="${stillcuts.url}" alt="" height="290px">
                             </div>
                         </section>
+
+                        <!-- 스틸컷 클릭시 모달 창 -->
+                        <div id="imageModal" class="modal">
+                            <span class="close">&times;</span>
+                            <span class="prev">&#10094;</span>
+                            <img class="modal-content" id="modalImage">
+                            <span class="next">&#10095;</span>
+                        </div>
 
                         <div class="right-div d:flex jc:center ai:center d:inline-block">
                             <button

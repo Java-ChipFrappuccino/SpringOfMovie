@@ -86,6 +86,72 @@ main{
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* 썸네일 이미지 */
+.thumbnail {
+    /*max-width: 100%;*/
+    height: 290px;
+    cursor: pointer;
+}
+
+/* 모달 창 스타일 */
+.modal {
+    display: none; /* 기본적으로 보이지 않음 */
+    position: fixed; /* 화면에 고정 */
+    z-index: 9999; /* 다른 콘텐츠보다 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    /*overflow: auto; !* 스크롤 가능 *!*/
+    background-color: rgb(0, 0, 0); /* 배경색 */
+    background-color: rgba(0, 0, 0, 0.9); /* 배경색 투명도 */
+    opacity: 0; /* 초기 상태는 투명 */
+    transition: opacity 0.1s ease; /* 애니메이션 효과 */
+}
+.modal.show {
+    /*display: flex; !* 보이게 설정 *!*/
+    justify-content: center;
+    align-items: center;
+    opacity: 1; /* 불투명 */
+}
+/* 모달 창에 표시되는 이미지 */
+.modal-content {
+    display: block;
+    width: 80%;
+}
+
+/* 닫기 버튼 */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*모달창 네비게이션 버튼 스타일 */
+.prev, .next {
+    cursor: pointer;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    user-select: none; /*선택되거나 드래그 되지않게 막는설정*/
+}
+.prev:hover, .next:hover {
+    color: #bbb;
+}
 /* Media Queries*/
 @media (max-width: 1068px) {
     .test .avg-block {
