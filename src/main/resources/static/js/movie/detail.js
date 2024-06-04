@@ -190,8 +190,7 @@ function toggleContent() {
     }
   }
 }
-//====================================================================================
-//한줄평 필터링 스크립트
+//=============================한줄평 필터링 스크립트=================================
 {
   //한줄평 공백 필터링
   const inputField = document.querySelector(".reg-textarea");
@@ -211,19 +210,244 @@ function toggleContent() {
       }
       return true; // 유효한 입력이므로 제출 허용
     }
-  }
-  //텍스트 입력수 제한 필터링스크립트
-  const counterElement = document.querySelector(".charCount");
-
-  inputField.oninput = function() {
-    const maxLength = parseInt(inputField.getAttribute("maxlength"));
-    let currentLength = inputField.value.length;
-
-    // 최대 길이를 초과하는 입력을 제거
-    if (currentLength > maxLength) {
-      inputField.value = inputField.value.slice(0, maxLength);
-      currentLength = maxLength;
-    }
-    counterElement.textContent = `${currentLength} / ${maxLength}`;
   };
+    //텍스트 입력수 제한 필터링스크립트
+    const counterElement = document.querySelector(".charCount");
+    if (!inputField.disable) {
+      inputField.oninput = function () {
+        const maxLength = parseInt(inputField.getAttribute("maxlength"));
+        let currentLength = inputField.value.length;
+
+        // 최대 길이를 초과하는 입력을 제거
+        if (currentLength > maxLength) {
+          inputField.value = inputField.value.slice(0, maxLength);
+          currentLength = maxLength;
+        };
+        counterElement.textContent = `${currentLength} / ${maxLength}`;
+      };
+    };
 }
+//=============================한줄평 좋아요 스크립트=================================
+{
+  const reviewContent = document.querySelector(".reviews");
+  const reviews = reviewContent.querySelectorAll(".review-bgc");
+  reviews.forEach(review =>{
+  const reviewId = Number(review.dataset.reviewid);
+  let url = '/api/oneline-reviews/' + reviewId;
+
+    const likeBtn = review.querySelector('.icon\\:thumbs_up');
+    likeBtn.onclick = async function () {
+      const response = await fetch(url + '/like',
+          {
+            method: 'POST',
+          });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      console.log(response);
+      const result = Number(await response.text());
+      console.log(result);
+
+      switch (result) {
+        case 100:
+          Swal.fire("로그인후 이용할수 있습니다");
+          break;
+        case 1:
+          alert("좋아요 완료");
+          likeBtn.classList.add("icon-color:accent-3");
+          break;
+        case 0:
+          alert("제거완료");
+          break;
+        default:
+          Swal.fire("예기치못한 오류가 발생했습니다, 잠시후 다시 시도해주세요");
+          break;
+      }
+    };
+  });
+}
+//=============================한줄평 정렬 스크립트=================================
+{
+    const reviewFilter = document.querySelector(".review-filter");
+    const newestFilter = reviewFilter.querySelector("li:first-child");
+    const newestFilterStatus = newestFilter.querySelector(".status");
+    const ratingFilter = reviewFilter.querySelector("li:nth-child(2)");
+    const ratingFilterStatus = ratingFilter.querySelector(".status");
+    const likeFilter = reviewFilter.querySelector("li:last-child");
+    const reviewContent = document.querySelector(".reviews");
+    const urlParams = new URLSearchParams(window.location.search); //현재 url값을 가져옴
+    const movieId = Number(urlParams.get('movieid')); // url에서 원하는 파라미터값 추출
+    let url = '/api/oneline-reviews/' + movieId;
+    //최신 순
+    newestFilter.onclick = async function (e) {
+      e.preventDefault();
+      //현재 선택되지 않은 상태면 선택된 상태로 변경
+      if (!newestFilter.classList.contains('fs:3')) {
+        newestFilter.classList.add('fs:3', 'color:base-10');
+        newestFilterStatus.classList.add('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'status-change');
+
+        //다른 카테고리들 css 초기화
+        ratingFilter.classList.remove('fs:3', 'color:base-10');
+        ratingFilterStatus.classList.remove('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'icon-color:accent-3', 'status-change');
+      }
+      //현재 최신순이라면 오래된순으로 변경
+      if (newestFilterStatus.classList.contains('icon-color:accent-3')) {
+        newestFilterStatus.classList.replace('icon-color:accent-3','icon-color:sub-3');
+        newestFilterStatus.classList.add('status-change');
+        const response = await fetch(url + '/oldest',
+            {
+              method: 'GET',
+            });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        await bind(result);
+
+        return;
+      }
+      //현재 오래된 순일시 최신순으로변경
+      newestFilterStatus.classList.replace('icon-color:sub-3','icon-color:accent-3');
+      newestFilterStatus.classList.remove('status-change');
+
+      const response = await fetch(url + '/newest',
+          {
+            method: 'GET',
+          });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+      await bind(result);
+    }
+
+    //평점 순
+    ratingFilter.onclick = async function (e) {
+      e.preventDefault();
+      //현재 선택되지 않은 상태면 선택된 상태로 변경
+      if (!ratingFilter.classList.contains('fs:3')) {
+        ratingFilter.classList.add('fs:3', 'color:base-10');
+        ratingFilterStatus.classList.add('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'status-change');
+
+        //다른 카테고리들 css 초기화
+        newestFilter.classList.remove('fs:3', 'color:base-10');
+        newestFilterStatus.classList.remove('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'icon-color:accent-3', 'status-change');
+      }
+      //현재 평점 높은 순 이라면 낮은 순으로 변경
+      if (ratingFilterStatus.classList.contains('icon-color:accent-3')) {
+        ratingFilterStatus.classList.replace('icon-color:accent-3','icon-color:sub-3');
+        ratingFilterStatus.classList.add('status-change');
+        const response = await fetch(url + '/ratingLow',
+            {
+              method: 'GET',
+            });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json(); //결과값을 문자열로 받음
+        await bind(result);
+
+        return;
+      }
+      //현재 낮은 순일시 높은 순 으로 변경
+      ratingFilterStatus.classList.replace('icon-color:sub-3','icon-color:accent-3');
+      ratingFilterStatus.classList.remove('status-change');
+
+      const response = await fetch(url + '/ratingHigh',
+          {
+            method: 'GET',
+          });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json(); //결과값을 문자열로 받음
+      await bind(result);
+
+    }
+
+    //좋아요 순
+    likeFilter.onclick = async function (e) {
+      e.preventDefault();
+      //현재 선택되지 않은 상태면 선택된 상태로 변경
+      if (!likeFilter.classList.contains('fs:3')) {
+        likeFilter.classList.add('fs:3', 'color:base-10');
+        // ratingFilterStatus.classList.add('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'status-change');
+
+        //다른 카테고리들 css 초기화
+        newestFilter.classList.remove('fs:3', 'color:base-10');
+        newestFilterStatus.classList.remove('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'icon-color:accent-3', 'status-change');
+        ratingFilter.classList.remove('fs:3', 'color:base-10');
+        ratingFilterStatus.classList.remove('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'icon-color:accent-3', 'status-change');
+
+        const response = await fetch(url + '/like',
+            {
+              method: 'GET',
+            });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json(); //결과값을 문자열로 받음
+        await bind(result);
+      }
+    }
+
+// 한줄평 목록 html 바인딩 함수
+  async function bind(result) {
+    reviewContent.innerHTML = ""; //콘텐츠 안의 html을 공백으로 초기화 한다
+
+    for (let i = 0; i < result.length; i++) {
+      let r = result[i];
+      // 날짜 포맷팅
+      let regDate = new Date(r.regDate);
+      let year = regDate.getFullYear();
+      let month = ('0' + (regDate.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더해줌
+      let day = ('0' + regDate.getDate()).slice(-2);
+
+      let formattedDate = `${year}년 ${month}월 ${day}일`;
+
+      let sectionHTML = `
+      <li class="mb:3 n-item n-item-type:shadow review-bgc fade-in">
+                            <div class="d:flex flex-direction:column gap:2">
+                                <div class="d:flex">
+                                    <span
+                                        class="margin-right:auto color:sub-1 fw:bold">${r.memberRate}원</span>
+                                    <span>${formattedDate}</span>
+                                </div>
+                                <div class="d:flex ai:center gap:3">
+                                    <span class="icon icon:user">아이콘</span>
+                                    <span>${r.nickname}</span>
+                                </div>
+                                <div>${r.comments}</div>
+                                <div class="mt:auto d:inline-block">
+                                    <span class="icon icon:thumbs_up">아이콘</span>
+                                    <span>${r.likeCount}</span>
+                                    <button class="ml:2">좋아요</button>
+                                </div>
+                            </div>
+                        </li>`;
+      reviewContent.insertAdjacentHTML("beforeend", sectionHTML); //sectionHTML문자열을 reviewContent값의 beforeend 위치에 삽입한다
+    }
+    // 모든 항목을 DOM에 추가한 후 애니메이션을 주고자 순차적으로 show 클래스를 부여
+    const listItems = reviewContent.querySelectorAll('.fade-in');
+
+    for (let i = 0; i < listItems.length; i++) {
+      await new Promise(resolve => setTimeout(() => {
+        listItems[i].classList.add('show');
+        resolve();
+      }, 100)); // 각 항목에 100ms 간격으로 show 클래스 부여
+    }
+  }
+}
+

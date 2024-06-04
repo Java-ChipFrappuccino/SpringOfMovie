@@ -18,6 +18,7 @@ public interface OnelineReviewRepository {
 
     // 한줄평 목록
     List<OnelineReviewView> findAll(Long movieId);
+    List<OnelineReviewView> findAllByCategory(Long movieId, Long memberId, String category);
 
     List<OnelineReviewMovieView> findAllByMemberId(Long id);
 

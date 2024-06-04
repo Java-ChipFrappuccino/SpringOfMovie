@@ -43,6 +43,12 @@ public class OnelineReviewServiceImp implements OnelineReviewService {
     }
 
     @Override
+    public List<OnelineReviewView> getListByCategory(Long movieId, Long memberId, String category) {
+        List<OnelineReviewView> onelineReviews = onelineReviewRepository.findAllByCategory(movieId,memberId,category);
+        return onelineReviews;
+    }
+
+    @Override
     public List<OnelineReviewMovieView> getListByMemberId(Long id) {
         return onelineReviewRepository.findAllByMemberId(id);
     }

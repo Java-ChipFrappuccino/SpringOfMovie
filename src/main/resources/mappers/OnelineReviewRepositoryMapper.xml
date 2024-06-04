@@ -23,7 +23,95 @@
 
     <!-- 한줄평 목록 -->
     <select id="findAll" resultType="OnelineReviewView">
-        select * from one_line_review_view where movie_id = #{movieId};
+        SELECT
+        v.id,
+        v.reg_date,
+        v.comments,
+        v.member_rate,
+        v.movie_id,
+        v.member_id,
+        v.nickname,
+        COALESCE(like_counts.like_count, 0) AS like_count,
+        COALESCE(like_statuses.like_status, 0) AS like_status
+        FROM
+        one_line_review_view v
+        LEFT JOIN
+        (
+        SELECT
+        oneline_review_id,
+        COUNT(*) AS like_count
+        FROM
+        spring_of_movie_db.oneline_review_like
+        GROUP BY
+        oneline_review_id
+        ) like_counts ON v.id = like_counts.oneline_review_id
+        LEFT JOIN
+        (
+        SELECT
+        oneline_review_id,
+        1 AS like_status
+        FROM
+        spring_of_movie_db.oneline_review_like
+        WHERE
+        member_id = #{memberId}
+        ) like_statuses ON v.id = like_statuses.oneline_review_id
+        WHERE
+        v.movie_id = #{movieId}
+
+        ORDER BY reg_date DESC
+    </select>
+
+    <!-- 한줄평 목록 -->
+    <select id="findAllByCategory" resultType="OnelineReviewView">
+        SELECT
+        v.id,
+        v.reg_date,
+        v.comments,
+        v.member_rate,
+        v.movie_id,
+        v.member_id,
+        v.nickname,
+        COALESCE(like_counts.like_count, 0) AS like_count,
+        COALESCE(like_statuses.like_status, 0) AS like_status
+        FROM
+        one_line_review_view v
+        LEFT JOIN
+        (
+        SELECT
+        oneline_review_id,
+        COUNT(*) AS like_count
+        FROM
+        spring_of_movie_db.oneline_review_like
+        GROUP BY
+        oneline_review_id
+        ) like_counts ON v.id = like_counts.oneline_review_id
+        LEFT JOIN
+        (
+        SELECT
+        oneline_review_id,
+        1 AS like_status
+        FROM
+        spring_of_movie_db.oneline_review_like
+        WHERE
+        member_id = #{memberId}
+        ) like_statuses ON v.id = like_statuses.oneline_review_id
+        WHERE
+        v.movie_id = #{movieId}
+        <if test="category == 'newest'">
+            ORDER BY reg_date DESC
+        </if>
+        <if test="category == 'oldest'">
+            ORDER BY reg_date
+        </if>
+        <if test="category == 'ratingHigh'">
+            ORDER BY member_rate DESC
+        </if>
+        <if test="category == 'ratingLow'">
+            ORDER BY member_rate
+        </if>
+        <if test="category == 'like'">
+            ORDER BY like_count DESC
+        </if>
     </select>
 
     <!--회원이 작성한 리뷰 가져오기-->

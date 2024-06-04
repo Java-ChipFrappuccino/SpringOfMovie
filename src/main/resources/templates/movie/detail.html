@@ -312,7 +312,7 @@
                         <div class="display:flex align-items:flex-end flex-direction:column">
                             <!--비회원 접속시-->
                             <textarea sec:authorize="isAnonymous()" disabled
-                                class="anonymous-font-size width:10p height:2 p:2 n-textbox n-textbox-status:success"
+                                class="anonymous-font-size width:10p height:2 p:2 n-textbox n-textbox-status:success reg-textarea"
                                 type="text" placeholder="로그인후 이용하실수 있습니다."></textarea>
                             <div sec:authorize="isAnonymous()" class="mr:auto mt:1">
                                 <span class="charCount ml:2 color:base-6">0 / 50</span>
@@ -381,7 +381,7 @@
 
                 <section>
                     <h1 class="d:none pl:1 fw:3 section-font border-left bd-color:main-2 bd-w:3 mt:7 mb:2">영화 줄거리</h1>
-                    <div class="avg-block color:base-6 margin-top:3 fw:400 fs:4" th:text="${movie.getMovieIntro()}">
+                    <div class="avg-block color:base-6 margin-top:3 fw:400 fs:4 p:5" th:text="${movie.getMovieIntro()}">
                         영화 줄거리
                     </div>
                 </section>
@@ -539,21 +539,29 @@
                                 th:text="${'('+formattedSize+' 개)'}">(3,426리뷰)
                             </span>
                         </h1>
-                        <ul class="d:flex fs:1 ai:center jc:space-between p-right:1 fs:2 fw:bold color:base-6">
+                        <ul class="review-filter d:flex fs:1 ai:center jc:space-between p-right:1 fs:2 fw:bold color:base-6">
                             <li class="p-right:3 fs:3 color:base-10">
-                                <a href="" class="">최신 순</a>
+                                <a href="" class="d:flex ai:center">
+                                    <span>최신 순</span>
+                                    <span class="icon icon-size:3 deco-size:3 deco-ml:0 icon:arrow_up icon-color:accent-3 status"></span>
+                                </a>
                             </li>
-<!--                            <li class="p-right:3">-->
-<!--                                <a href="">평점 순</a>-->
-<!--                            </li>-->
-
-<!--                            <li class="">-->
-<!--                                <a href="">좋아요 순</a>-->
-<!--                            </li>-->
+                            <li class="p-right:3">
+                                <a href="" class="d:flex ai:center">
+                                    <span>평점 순</span>
+                                    <span class="status"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="">
+                                    <span>좋아요 순</span>
+                                    <span class="status"></span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
-                    <ul class="mb:7 d:flex flex-direction:column gap:2">
-                        <li th:each="r ,count: ${reviews}" class="mb:3 n-item n-item-type:shadow ttr">
+                    <ul class="mb:7 d:flex flex-direction:column gap:2 reviews">
+                        <li th:each="r : ${reviews}" th:data-reviewid="${r.id}" class="mb:3 n-item n-item-type:shadow review-bgc">
                             <div class="d:flex flex-direction:column gap:2">
                                 <div class="d:flex">
                                     <span th:text="${r.memberRate}+원"
@@ -566,11 +574,11 @@
                                     <span th:text="${r.nickname}">닉네임</span>
                                 </div>
                                 <div th:text="${r.comments}">한줄평이 출력됩니다</div>
-<!--                                <div class="mt:auto d:inline-block">-->
-<!--                                    <span class="icon icon:thumbs_up">아이콘</span>-->
-<!--                                    <span th:text="${count.count}">좋아요 수</span>-->
-<!--                                    <button class="ml:2">좋아요</button>-->
-<!--                                </div>-->
+                                <div class="mt:auto d:inline-block">
+                                    <span class="icon icon:thumbs_up">아이콘</span>
+                                    <span th:text="${r.likeCount}">좋아요 수</span>
+                                    <button class="ml:2">좋아요</button>
+                                </div>
                             </div>
                         </li>
                         <!--리뷰 없을시 출력되는 창-->
