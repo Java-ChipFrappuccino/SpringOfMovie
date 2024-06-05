@@ -232,56 +232,60 @@ function toggleContent() {
   const reviewContent = document.querySelector(".reviews");
   const reviews = reviewContent.querySelectorAll(".review-bgc");
   reviews.forEach(review =>{
+    setLikeButtonEvent(review);
+  });
+}
+//좋아요, 좋아요 취소 스크립트 다른곳에서 가져다 쓰기 쉽게 함수로 분리하기
+function setLikeButtonEvent(review) {
   const reviewId = Number(review.dataset.reviewid);
   const likeBtn = review.querySelector('.icon\\:thumbs_up');
   const likeCount = review.querySelector(".like-count");
-    let url = '/api/oneline-reviews/' + reviewId;
+  let url = '/api/oneline-reviews/' + reviewId;
   let status;
   let method;
 
-    likeBtn.onclick = async function () {
+  likeBtn.onclick = async function () {
 
-      status = '/like';
-      method = 'POST';
-      if (likeBtn.classList.contains('icon-color:accent-3')) {
-        status = '/unlike';
-        method = 'DELETE';
-      }
-      const response = await fetch(url + status,
-          {
-            method: method,
-          });
+    status = '/like';
+    method = 'POST';
+    if (likeBtn.classList.contains('icon-color:accent-3')) {
+      status = '/unlike';
+      method = 'DELETE';
+    }
+    const response = await fetch(url + status,
+        {
+          method: method,
+        });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
 
-      // console.log(response);
-      const result = Number(await response.text());
-      // console.log(result);
+    // console.log(response);
+    const result = Number(await response.text());
+    // console.log(result);
 
 
-      switch (result) {
-        case 100:
-          Swal.fire("로그인후 이용할수 있습니다");
-          break;
-        case 1:
-          // alert("좋아요 완료");
-          likeBtn.classList.add("icon-color:accent-3");
-          likeCount.innerText = Number(likeCount.innerText) + 1;
-          break;
-        case 0:
-          // alert("제거완료");
-          likeBtn.classList.remove("icon-color:accent-3");
-          likeCount.innerText = Number(likeCount.innerText) - 1;
-          break;
-        default:
-          Swal.fire("예기치못한 오류가 발생했습니다, 잠시후 다시 시도해주세요");
-          break;
-      }
-    };
-  });
-}
+    switch (result) {
+      case 100:
+        Swal.fire("로그인후 이용할수 있습니다");
+        break;
+      case 1:
+        // alert("좋아요 완료");
+        likeBtn.classList.add("icon-color:accent-3");
+        likeCount.innerText = Number(likeCount.innerText) + 1;
+        break;
+      case 0:
+        // alert("제거완료");
+        likeBtn.classList.remove("icon-color:accent-3");
+        likeCount.innerText = Number(likeCount.innerText) - 1;
+        break;
+      default:
+        Swal.fire("예기치못한 오류가 발생했습니다, 잠시후 다시 시도해주세요");
+        break;
+    }
+  };
+};
 //=============================한줄평 정렬 스크립트=================================
 {
     const reviewFilter = document.querySelector(".review-filter");
@@ -421,10 +425,15 @@ function toggleContent() {
 
 // 한줄평 목록 html 바인딩 함수
   async function bind(result) {
+      //리뷰가 없을시 함수를 종료시킴, 종료 안하면 html이 초기화 되어서 리뷰없을때 나오는 텅..이라는 글자가 사라져버림
+      if (result.length === 0) {
+        return;
+      }
     reviewContent.innerHTML = ""; //콘텐츠 안의 html을 공백으로 초기화 한다
 
     for (let i = 0; i < result.length; i++) {
       let r = result[i];
+
       // 날짜 포맷팅
       let regDate = new Date(r.regDate);
       let year = regDate.getFullYear();
@@ -434,7 +443,7 @@ function toggleContent() {
       let formattedDate = `${year}년 ${month}월 ${day}일`;
 
       let sectionHTML = `
-      <li class="mb:3 n-item n-item-type:shadow review-bgc fade-in">
+      <li class="px:6 pb:4 mb:3 n-item n-item-type:shadow review-bgc fade-in" data-reviewid="${r.id}">
                             <div class="d:flex flex-direction:column gap:2">
                                 <div class="d:flex">
                                     <span
@@ -446,15 +455,22 @@ function toggleContent() {
                                     <span>${r.nickname}</span>
                                 </div>
                                 <div>${r.comments}</div>
-                                <div class="mt:auto d:inline-block">
-                                    <span class="icon icon:thumbs_up">아이콘</span>
-                                    <span>${r.likeCount}</span>
-                                    <button class="ml:2">좋아요</button>
+                                <div class="mt:2 d:inline-block line-height:2">
+                                    <span class="icon icon:thumbs_up ${r.likeStatus === 1 ? 'icon-color:accent-3' : ''}">아이콘</span>
+                                    <span class="like-count">${r.likeCount}</span>
+<!--                                    <button class="ml:2">좋아요</button>-->
                                 </div>
                             </div>
                         </li>`;
       reviewContent.insertAdjacentHTML("beforeend", sectionHTML); //sectionHTML문자열을 reviewContent값의 beforeend 위치에 삽입한다
     }
+
+    // 새로 추가된 리뷰 요소들에 대해 이벤트 리스너 설정
+    const newReviews = reviewContent.querySelectorAll(".review-bgc");
+    newReviews.forEach(review => {
+      setLikeButtonEvent(review);
+    });
+
     // 모든 항목을 DOM에 추가한 후 애니메이션을 주고자 순차적으로 show 클래스를 부여
     const listItems = reviewContent.querySelectorAll('.fade-in');
 
