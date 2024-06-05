@@ -157,14 +157,16 @@ function toggleContent() {
   }
 }
 
+//===============================한줄평 삭제====================================
+
 {
   let form = document.querySelector(".reg-form");
   let deleteButton = document.querySelector(".delete-button");
 
   if (deleteButton) {
-    //게시글 삭제 버튼 클릭시
+    //한줄평 삭제 버튼 클릭시
     deleteButton.onclick = function (e) {
-      // e.preventDefault();
+      e.preventDefault();
       Swal.fire({
         title: "정말 삭제하시겠습니까?",
         text: "삭제한 후에는 복구가 불가능합니다 🥲",
@@ -213,11 +215,14 @@ function toggleContent() {
   };
     //텍스트 입력수 제한 필터링스크립트
     const counterElement = document.querySelector(".charCount");
+    const maxLength = parseInt(inputField.getAttribute("maxlength"));
+    let currentLength = inputField.value.length;
+    //텍스트 박스에서 입력을 시작하지 않아도 페이지로딩때 현재 입력수 값이 제대로 보이게 함
+    counterElement.textContent = `${currentLength} / ${maxLength}`;
+
     if (!inputField.disable) {
       inputField.oninput = function () {
-        const maxLength = parseInt(inputField.getAttribute("maxlength"));
-        let currentLength = inputField.value.length;
-
+      currentLength = inputField.value.length;
         // 최대 길이를 초과하는 입력을 제거
         if (currentLength > maxLength) {
           inputField.value = inputField.value.slice(0, maxLength);
@@ -455,7 +460,7 @@ function setLikeButtonEvent(review) {
                                     <span>${r.nickname}</span>
                                 </div>
                                 <div>${r.comments}</div>
-                                <div class="mt:2 d:inline-block line-height:2">
+                                <div class="mt:1 d:inline-block line-height:2">
                                     <span class="icon icon:thumbs_up ${r.likeStatus === 1 ? 'icon-color:accent-3' : ''}">아이콘</span>
                                     <span class="like-count">${r.likeCount}</span>
 <!--                                    <button class="ml:2">좋아요</button>-->

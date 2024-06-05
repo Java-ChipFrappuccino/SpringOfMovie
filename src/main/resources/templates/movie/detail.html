@@ -152,10 +152,11 @@
             /*right: 1090px;*/
         }
 
-        .delete-button {
-            position: relative;
-            /*bottom: 52px;*/
-            /*right: -1120px;*/
+        .delete-form {
+            display: flex;
+            justify-content: end;
+            margin-top: -52px; /* 평가하기 폼과 겹치지 않도록 위로 이동 */
+            margin-right: 100px;
         }
     </style>
 </head>
@@ -338,7 +339,7 @@
                             </div>
                         </div>
                     </form>
-                    <form class="d:inline-block" th:action="${myReview != null ? 'comment/delete/'+movie.id : 'comment'}" action="comment" method="POST">
+                    <form th:if="${myReview != null}" class="delete-form" th:action="${'comment/delete/'+ movie.id}" action="comment" method="POST">
                         <!--삭제요청 버튼-->
                         <input type="text" name="movieid" th:value="${movie.id}" class="d:none">
                         <button sec:authorize="isAuthenticated()" type="submit"
@@ -574,7 +575,7 @@
                                     <span th:text="${r.nickname}">닉네임</span>
                                 </div>
                                 <div th:text="${r.comments}">한줄평이 출력됩니다</div>
-                                <div class="mt:2 d:inline-block line-height:2">
+                                <div class="mt:1 d:inline-block line-height:2">
                                     <span th:classappend="${r.likeStatus == 1 ? 'icon-color:accent-3' : ''}" class="icon icon:thumbs_up">아이콘</span>
                                     <span th:text="${r.likeCount}" class="like-count">좋아요 수</span>
 <!--                                    <button class="ml:2 color:accent-3">좋아요</button>-->
