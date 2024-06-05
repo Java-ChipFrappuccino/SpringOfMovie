@@ -112,6 +112,8 @@ public class MovieController {
     @GetMapping("detail")
     public String detail(@AuthenticationPrincipal CustomUserDetails userDetails,
                          @RequestParam("movieid") Long movieId, Model model) {
+        Long memberId = null;
+
         // 상세정보//
         Movie movie = movieService.getById(movieId);
         List<MovieActorView> actors = movieActorService.getById(movieId);
@@ -119,15 +121,19 @@ public class MovieController {
         List<MovieStillcut> stillcuts = movieStillcutService.getById(movieId);
         List<totalVoteView> TWMovie = TWMovieService.findByMovieCd();
         List<MovieTrailer> trailers = movieTrailerService.getById(movieId);
-        // 리뷰목록//
-        List<OnelineReviewView> onelineReviews = onelineReviewService.getList(movieId);
         // 로그인한 회원이 쓴 리뷰가 있을경우
         if (userDetails != null) {
-        Long memberId = userDetails.getId();
+        memberId = userDetails.getId();
             OnelineReview review = onelineReviewService.getById(movieId, memberId);
             if (review != null)
             model.addAttribute("myReview", review);
         }
+
+        // 전체 리뷰목록//
+//        List<OnelineReviewView> onelineReviews = onelineReviewService.getList(movieId); // 필요 없을수도? 일단 보관
+        // 기본값으로 작성일 최신순(newest)으로 불러옴, 멤버아이디를 넣는 이유는 해당멤버가 리뷰들에 좋아요를 했는지 여부를 쿼리에서 참조 하기 때문, 비회원일시 null값이 들어가고 쿼리결과값은 0으로 나옴(좋아요 하지않은 상태)
+        List<OnelineReviewView> onelineReviews = onelineReviewService.getListByCategory(movieId,memberId,"newest");
+
         // 영화 평점 불러오기
         {
             model.addAttribute("avgRate", 15000); //리뷰가 없을경우 기본값 전송

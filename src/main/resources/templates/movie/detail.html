@@ -575,8 +575,8 @@
                                 </div>
                                 <div th:text="${r.comments}">한줄평이 출력됩니다</div>
                                 <div class="mt:auto d:inline-block">
-                                    <span class="icon icon:thumbs_up">아이콘</span>
-                                    <span th:text="${r.likeCount}">좋아요 수</span>
+                                    <span th:classappend="${r.likeStatus == 1 ? 'icon-color:accent-3' : ''}" class="icon icon:thumbs_up">아이콘</span>
+                                    <span th:text="${r.likeCount}" class="like-count">좋아요 수</span>
                                     <button class="ml:2">좋아요</button>
                                 </div>
                             </div>

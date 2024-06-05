@@ -233,33 +233,47 @@ function toggleContent() {
   const reviews = reviewContent.querySelectorAll(".review-bgc");
   reviews.forEach(review =>{
   const reviewId = Number(review.dataset.reviewid);
-  let url = '/api/oneline-reviews/' + reviewId;
+  const likeBtn = review.querySelector('.icon\\:thumbs_up');
+  const likeCount = review.querySelector(".like-count");
+    let url = '/api/oneline-reviews/' + reviewId;
+  let status;
+  let method;
 
-    const likeBtn = review.querySelector('.icon\\:thumbs_up');
     likeBtn.onclick = async function () {
-      const response = await fetch(url + '/like',
+
+      status = '/like';
+      method = 'POST';
+      if (likeBtn.classList.contains('icon-color:accent-3')) {
+        status = '/unlike';
+        method = 'DELETE';
+      }
+      const response = await fetch(url + status,
           {
-            method: 'POST',
+            method: method,
           });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
-      console.log(response);
+      // console.log(response);
       const result = Number(await response.text());
-      console.log(result);
+      // console.log(result);
+
 
       switch (result) {
         case 100:
           Swal.fire("로그인후 이용할수 있습니다");
           break;
         case 1:
-          alert("좋아요 완료");
+          // alert("좋아요 완료");
           likeBtn.classList.add("icon-color:accent-3");
+          likeCount.innerText = Number(likeCount.innerText) + 1;
           break;
         case 0:
-          alert("제거완료");
+          // alert("제거완료");
+          likeBtn.classList.remove("icon-color:accent-3");
+          likeCount.innerText = Number(likeCount.innerText) - 1;
           break;
         default:
           Swal.fire("예기치못한 오류가 발생했습니다, 잠시후 다시 시도해주세요");
@@ -291,6 +305,7 @@ function toggleContent() {
         //다른 카테고리들 css 초기화
         ratingFilter.classList.remove('fs:3', 'color:base-10');
         ratingFilterStatus.classList.remove('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'icon-color:accent-3', 'status-change');
+        likeFilter.classList.remove('fs:3', 'color:base-10');
       }
       //현재 최신순이라면 오래된순으로 변경
       if (newestFilterStatus.classList.contains('icon-color:accent-3')) {
@@ -338,6 +353,7 @@ function toggleContent() {
         //다른 카테고리들 css 초기화
         newestFilter.classList.remove('fs:3', 'color:base-10');
         newestFilterStatus.classList.remove('icon', 'icon-size:3', 'deco-size:3', 'deco-ml:0', 'icon:arrow_up', 'icon-color:sub-3', 'icon-color:accent-3', 'status-change');
+        likeFilter.classList.remove('fs:3', 'color:base-10');
       }
       //현재 평점 높은 순 이라면 낮은 순으로 변경
       if (ratingFilterStatus.classList.contains('icon-color:accent-3')) {
