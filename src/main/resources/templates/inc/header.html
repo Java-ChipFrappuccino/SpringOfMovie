@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<header class="header mb:6 color:base-10" th:class="${url != null && url.startsWith('/movie/detail') ? 'hide-header header mb:6 color:base-10' : 'header mb:6 color:base-10'}">
+<header class="header mb:6 color:base-10" th:class="${url != null && url.startsWith('/movie/detail') ? 'hide-header header mb:6 color:base-10' :
+                                                                            (url != null && url == '/') ? 'main-change-header mb:6 header' : 'header mb:6 color:base-10'}">
     <div class="top_nav">
         <div class="nav_container top_nav_container">
-            <h1 class="logo deco icon:film deco-pos:right"><a href="/">영화의봄</a></h1>
+            <h1  class="logo deco icon:film deco-pos:right icon-color:base-10"><a href="/">영화의봄</a></h1>
             <div class="search_box">
                 <form action="/search">
                     <div class="search">
@@ -14,12 +15,12 @@
                     </div>
                 </form>
                 <a class="login_btn d:flex ai:center white-space:nowrap" href="/user/signin" rel="">
-                    <i sec:authorize="isAnonymous()" class="icon icon:user ml:1"></i>
+                    <i sec:authorize="isAnonymous()" class="icon icon:user icon-color:base-10 ml:1"></i>
                     <span sec:authorize="isAnonymous()" class="ml:1 fs:2">로그인</span>
                 </a>
                 <div class="d:flex ai:center">
                     <a class="login_btn" href="/user/signout" rel="">
-                        <i sec:authorize="isAuthenticated()" class="icon icon:sign_out ml:2"></i>
+                        <i sec:authorize="isAuthenticated()" class="icon icon:sign_out icon-color:base-10 ml:2"></i>
                         <!-- <span sec:if not="isAnonymous()" th:text="${#authentication.name}">이거 나오면 망함</span> -->
                     </a>
                     <div sec:authorize="isAuthenticated()" class="white-space:nowrap ml:1 fs:2">
@@ -42,7 +43,7 @@
             <h2 class="d:none">게시판 리스트</h2>
             <div class="nav_container bottom_nav_container">
                 <div>
-                    <ul class="n-tabbar jc:space-between">
+                    <ul class="n-tabbar jc:space-evenly">
 <!--                        현재 url의 모든 하위루트에 같은 설정을 적용-->
 <!--                        추후에 카테고리가 추가될 경우를 대비해 반복문 처리 해야 할듯? -->
                         <li th:classappend="${url != null && url.startsWith('/movie/') ? 'active' : ''}"><a class="tabbar-height fs:2" href="/movie/main">영화</a></li>

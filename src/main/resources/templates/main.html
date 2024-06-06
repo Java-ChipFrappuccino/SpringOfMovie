@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>영화의봄</title>
+    <title>영화의봄 - Spring Of Movie</title>
     <link rel="stylesheet" type="text/css" href="/css/index.css" />
     <link rel="stylesheet" type="text/css" href="/css/desktop.css" />
     <script src="/js/movie/list.js" defer></script>
@@ -66,9 +66,13 @@
             width:640px;
         }
 
+        .main-screen-wrap {
+        background-color: black;
+        }
+
         .main-screen {
             width: 1332px;
-            height: 700px;
+            /*height: 700px;*/
             margin: 0 auto;
 
         }
@@ -77,8 +81,142 @@
             margin: 0 auto;
         }
 
+        /* 캐러셀 전체 구조  */
+        .carousel_main {
+            /*width: 1332px; !* 이미지 크기 설정  *!*/
+            width: 1920px; /* 이미지 크기 설정  */
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            user-select: none;
+            border-radius: 4px;
+        }
 
+        .carousel_wrapper {
+            display: flex;
+            transition: transform 1s;
+        }
 
+        .carousel_slide {
+            flex: 0 0 100%; /* 이미지 크기 설정  */
+            position: relative;
+        }
+
+        .carousel_slide > img:first-child {
+            display: block;
+            /*width: 100%;*/
+            /*height: 100%;*/
+            object-fit: cover;
+            object-position: center 30%;
+        }
+
+        .gradient-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30%; /* 그라데이션의 높이를 조절 */
+            pointer-events: none;
+            background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.7) 5%,
+            rgba(0, 0, 0, 0.6) 10%,
+            /*rgba(0, 0, 0, 0.5) 50%,*/
+            /*rgba(0, 0, 0, 0) 60%,*/
+            rgba(0, 0, 0, 0) 100%);
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.5) 40%,
+            rgba(0, 0, 0, 0.7) 60%,
+            rgba(0, 0, 0, 0.8) 80%,
+            rgba(0, 0, 0, 0.9) 95%,
+            rgba(0, 0, 0, 1) 100%);
+            /*:hover {*/
+            /*    transform: scale(1.1);*/
+            /*}*/
+        }
+
+        .logo-position {
+            left: 3%;
+            bottom: 5%;
+        }
+
+        /* 캐러셀 사이드 버튼 */
+        .carousel_button_container {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .carousel_prev,
+        .carousel_next {
+            width: 50px;
+            height: 50px;
+            color: rgba(187, 187, 187, 0.3);
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 50px;
+            transition: 0.3s ease;
+        }
+
+        .carousel_prev:hover,
+        .carousel_next:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .carousel_prev {
+            border: 0px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel_next {
+            border: 0px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 캐러셀 중앙 버튼 */
+        .carousel_pagination {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
+        .carousel_circle {
+            width: 10px;
+            height: 10px;
+            background-color: #aaa;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .carousel_circle.active {
+            background-color: #333;
+        }
 
     </style>
 </head>
@@ -86,13 +224,41 @@
 <body>
     <main layout:fragment="main">
         <!-- 미디어로 가운데로 값주기-->
-        <section class="main-screen-wrap ">
-            <div class="main-screen">
+        <section class="main-screen-wrap">
             <h1 class="d:none">메인페이지 대문</h1>
-<!--            <img class="testzz" src="" th:src="${list[0].posterUrl}" width="100%" height="800px" alt=""> &lt;!&ndash;//메인이미지 수정중&ndash;&gt;-->
-            <iframe class="bd-radius:3" width="100%" height="700" src="https://www.youtube.com/embed/-AZ7cnwn2YI"
-                frameborder="0" allowfullscreen>
-            </iframe>
+            <div class="main-screen carousel_main">
+                <ul class="carousel_wrapper">
+<!--                    <li>-->
+<!--                        <iframe class="bd-radius:3" width="100%" height="700"-->
+<!--                                src="https://www.youtube.com/embed/-AZ7cnwn2YI"-->
+<!--                                frameborder="0" allowfullscreen>-->
+<!--                        </iframe>-->
+<!--                    </li>-->
+                    <li class="carousel_slide" th:each="m, mCount : ${list}" th:if="${mCount.index < 5}">
+                        <img th:src="${m.mainImgUrl}" width="100%" height="800px" src="" alt="">
+                        <div class="gradient-top"></div>
+                        <div th:if="${m.logoUrl != null}" class="gradient-overlay"></div>
+                        <!--                <img class="img" src="http://file.koreafilm.or.kr/thm/02/99/18/21/tn_DPK021291.jpg" alt="">-->
+                        <!--                <img class="img" src="http://file.koreafilm.or.kr/thm/02/99/18/21/tn_DPK021292.jpg" alt="">-->
+                        <img class="logo-position position:absolute width:3p" th:src="${m.logoUrl}"
+                             src="http://image.tmdb.org/t/p/original//zPEtfLeTXr8RnYxwBm0Zm4ytmQX.png" alt="">
+                    </li>
+                </ul>
+
+                <!-- 캐러셀 사이드 버튼 -->
+                <div class="carousel_button_container">
+                    <button type="button" class="carousel_prev">
+                        &#10094;
+                    </button>
+                    <button type="button" class="carousel_next">
+                        &#10095;
+                    </button>
+                </div>
+
+                <!-- 캐러셀 중앙 버튼 -->
+                <div class="carousel_pagination">
+                    <div th:each="m, mCount : ${list}" th:if="${mCount.index < 5}" class="carousel_circle"></div>
+                </div>
             </div>
         </section>
         <section class="media">

@@ -86,8 +86,97 @@ window.addEventListener('load', function () {
 
         location.href = '/playground/main';
     });
+    //==========================메인 페이지 헤더 스크립트===================================
+    {
+            window.onscroll = function () {
+            const header = document.querySelector('.header');
+            let scrollPosition = window.scrollY;
+                if (scrollPosition > 100) {
+                    header.classList.remove('main-change-header');
+                    header.classList.add('hide-header');
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                    header.classList.remove('hide-header');
+                    header.classList.add('main-change-header');
+                }
+        };
+    }
+    //==========================메인 페이지 캐러셀 슬라이드 스크립트===================================
+    {
+        const slideSize = document.querySelector('.carousel_main').offsetWidth;
+        const swiper = document.querySelector('.carousel_wrapper');
+        const prevButtons = document.querySelectorAll('.carousel_prev');
+        const nextButtons = document.querySelectorAll('.carousel_next');
+        const bullets = document.querySelectorAll('.carousel_circle');
+        const slideTotalCount = Number(document.querySelectorAll('.carousel_slide').length);
+        let currentSlide = 0;
+        let slideInterval;
 
+        function showSlide(slideIndex) {
+            if (slideTotalCount === slideIndex) {
+                swiper.style.transform = `translateX(-${slideIndex * slideSize}px)`;
+                currentSlide = slideIndex;
+                return;
+            }
+            swiper.style.transform = `translateX(-${slideIndex * slideSize}px)`;
+            currentSlide = slideIndex;
 
+            bullets.forEach((bullet, index) => {
+                if (index === currentSlide) {
+                    bullet.classList.add('active');
+                } else {
+                    bullet.classList.remove('active');
+                }
+            });
+        }
+        // 5초마다 자동으로 슬라이드를 넘겨줌
+        function startSlideShow() {
+            slideInterval = setInterval(() => {
+                if (currentSlide === slideTotalCount - 1) {
+                    currentSlide = -1;
+                }
+                showSlide(currentSlide + 1);
+            }, 5000);
+        }
+        // 사용자가 슬라이드를 수동으로 조작하면 3초 타이머를 초기화 시킴
+        function resetSlideShow() {
+            clearInterval(slideInterval);
+            startSlideShow();
+        }
+        prevButtons.forEach((prevButton) => {
+            prevButton.onclick = function (){
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                } else if (currentSlide === 0) {
+                    showSlide(slideTotalCount - 1);
+                }
+                resetSlideShow();
+            };
+        });
+
+        nextButtons.forEach((nextButton) => {
+            nextButton.onclick = function (){
+                if (currentSlide < slideTotalCount - 1) {
+                    showSlide(currentSlide + 1);
+                } else if (currentSlide === slideTotalCount - 1) {
+                    showSlide(0);
+                }
+                resetSlideShow();
+            };
+        });
+
+        bullets.forEach((bullet, index) => {
+            bullet.onclick = function (){
+                showSlide(index);
+                resetSlideShow();
+            };
+        });
+        //첫 페이지 로딩시 0번째 슬라이드로 초기화
+        showSlide(0);
+        //자동 슬라이드 함수 호출
+        startSlideShow();
+    }
 
 
 
