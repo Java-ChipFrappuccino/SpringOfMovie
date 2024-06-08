@@ -209,7 +209,7 @@ public class CommunityBoardController {
         return "community/board/reg";
     }
 
-    // 게시글 수정// //put으로 바꿔야함
+    // 게시글 수정//
     @PostMapping("board/edit/{id}")
     public String edit(String contents , String title, @PathVariable Long id, String categoryName) {
         communityBoardService.editById(id, title, contents);
@@ -217,8 +217,8 @@ public class CommunityBoardController {
         return "redirect:/community/board/detail?c="+categoryName+"&id="+id;
     }
 
-    // 게시글 삭제// //delete로 바꿔야함
-    @GetMapping("board/delete/{id}")
+    // 게시글 삭제//
+    @PostMapping("board/delete/{id}")
     public String delete(@PathVariable Long id,@RequestParam(name="c",required = false)String categoryName,
                          @AuthenticationPrincipal CustomUserDetails userDetails) {
 

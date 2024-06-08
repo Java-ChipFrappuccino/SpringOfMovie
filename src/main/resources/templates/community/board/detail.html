@@ -89,9 +89,11 @@
                     </button>
                 </div>
             </div>
-            <div class="text-align:end fs:5 fw:bold color:main-3" th:if="${memberId eq board.memberId}">
+            <div class="fs:5 fw:bold color:main-3 d:flex jc:end" th:if="${memberId eq board.memberId}">
+                <form th:action="@{'delete/'+${board.id}(c=${category.engName})}" method="post" action="">
+                <button class="fs:5 fw:bold color:main-3 mr:2 board-delete-button">삭제</button>
+                </form>
                 <a th:href="@{'edit/'+${board.id}(c=${category.engName})}">수정</a>
-                <a th:href="@{'delete/'+${board.id}(c=${category.engName})}" class="board-delete-button">삭제</a>
             </div>
         </section>
         <section th:each="list : ${list}" th:classappend="${memberId eq list.memberId ? 'my-comment-bgc' : ''}"

@@ -1,4 +1,27 @@
 window.addEventListener('load', function () {
+    //==========================메인 페이지 헤더 스크립트===================================
+    {
+        const header = document.querySelector('.header');
+        let scrollPosition = window.scrollY;
+
+        if (scrollPosition > 100) {
+            header.classList.remove('main-change-header');
+            header.classList.add('hide-header');
+            header.classList.add('scrolled');
+        }
+        window.onscroll = function () {
+            scrollPosition = window.scrollY;
+            if (scrollPosition > 100) {
+                header.classList.remove('main-change-header');
+                header.classList.add('hide-header');
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+                header.classList.remove('hide-header');
+                header.classList.add('main-change-header');
+            }
+        };
+    }
 
     //열하나하나
     const rows = document.querySelectorAll('.betting-modals');
@@ -86,22 +109,7 @@ window.addEventListener('load', function () {
 
         location.href = '/playground/main';
     });
-    //==========================메인 페이지 헤더 스크립트===================================
-    {
-            window.onscroll = function () {
-            const header = document.querySelector('.header');
-            let scrollPosition = window.scrollY;
-                if (scrollPosition > 100) {
-                    header.classList.remove('main-change-header');
-                    header.classList.add('hide-header');
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                    header.classList.remove('hide-header');
-                    header.classList.add('main-change-header');
-                }
-        };
-    }
+
     //==========================메인 페이지 캐러셀 슬라이드 스크립트===================================
     {
         const slideSize = document.querySelector('.carousel_main').offsetWidth;
@@ -139,7 +147,7 @@ window.addEventListener('load', function () {
                 showSlide(currentSlide + 1);
             }, 5000);
         }
-        // 사용자가 슬라이드를 수동으로 조작하면 3초 타이머를 초기화 시킴
+        // 사용자가 슬라이드를 수동으로 조작하면 5초 타이머를 초기화 시킴
         function resetSlideShow() {
             clearInterval(slideInterval);
             startSlideShow();

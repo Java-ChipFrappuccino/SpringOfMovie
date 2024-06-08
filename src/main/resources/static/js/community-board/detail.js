@@ -21,6 +21,7 @@ if (legButton) {
     let likeButtonBox = voteBox.querySelector(".like-box");
     let disLikeButtonBox = voteBox.querySelector(".dislike-box");
     let boardDeleteButton = document.querySelector(".board-delete-button");
+    // let currentUrl = window.location.href;
 
     if (boardDeleteButton) {
         //게시글 삭제 버튼 클릭시
@@ -43,7 +44,7 @@ if (legButton) {
                         closeOnClickOutside: true,
                         confirmButtonColor: "#3085d6",
                     }).then(() => {
-                        window.location.href = boardDeleteButton.getAttribute("href");
+                        boardDeleteButton.closest("form").submit();
                     });
                 }
             });
