@@ -18,4 +18,10 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            mkdir tt
+            cd webapps/SpringOfMovie/
+            git pull
+            ./mvnw package
+            cd ../
+            rm -r ROOT/*
+            cd SpringOfMovie/
+            unzip target/web-0.0.1-SNAPSHOT.war -d ~/webapps/ROOT/
