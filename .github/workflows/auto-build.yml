@@ -1,5 +1,4 @@
-name: Build and deploy JAR app to Azure Web App
-
+name: auto-build
 on:
   push:
     branches: [ "main" ]
