@@ -26,7 +26,7 @@ public class ImageUploadController {
     public ResponseEntity<?> imageUpload(@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
         try {
             // 서버에 저장할 경로
-            String uploadDirectory = context.getServletContext().getRealPath("/resources/assets/images/upload");
+            String uploadDirectory = context.getServletContext().getRealPath("/image/upload");
 
             // 디렉토리가 존재하지 않으면 생성
             File dir = new File(uploadDirectory);

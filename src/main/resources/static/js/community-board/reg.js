@@ -123,7 +123,7 @@ function imageUploader(file, el) {
         processData : false,
         enctype : 'multipart/form-data',
         success : function(data) {
-            $(el).summernote('insertImage', "/resources/assets/images/upload/"+data, function($image) {
+            $(el).summernote('insertImage', "/image/upload/"+data, function($image) {
                 $image.css('width', "50%");
             });
             // 값이 잘 넘어오는지 콘솔 확인 해보셔도됩니다.
