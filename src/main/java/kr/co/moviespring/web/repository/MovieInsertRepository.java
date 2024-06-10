@@ -31,6 +31,10 @@ public interface MovieInsertRepository {
 
     List<Movie3> getlistByPrd(String year);
 
+    Movie3 findByCode(String code);
+
+    void save(Movie3 movie);
+
     int getCount(String query);
 
     List<Movie3> findByQuery(String query, int offset, int size);

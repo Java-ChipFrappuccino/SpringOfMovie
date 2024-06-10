@@ -14,12 +14,14 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 import kr.co.moviespring.web.config.batch.BatchSchedulerConfig;
 import kr.co.moviespring.web.entity.Movie;
+import kr.co.moviespring.web.entity.Movie3;
 import kr.co.moviespring.web.entity.MovieSearchView;
 import kr.co.moviespring.web.movieapi.KobisMovieAPI;
 import kr.co.moviespring.web.movieapi.TMDBMovieAPI;
 import kr.co.moviespring.web.movieapi.dto.kobis.KobisDailyBox;
 import kr.co.moviespring.web.movieapi.dto.kobis.KobisMovieInfo;
 import kr.co.moviespring.web.movieapi.dto.tmdb.TMDBMovieDetail;
+import kr.co.moviespring.web.repository.MovieInsertRepository;
 import kr.co.moviespring.web.repository.MovieRepository;
 
 @Service
@@ -29,6 +31,9 @@ public class MovieServiceImp implements MovieService {
     @Autowired
     MovieRepository repository;
 
+    @Autowired
+    MovieInsertRepository movieInsertRepository;
+
     // 프로젝트 로드시 한번 실행되는 어노테이션
     @PostConstruct
     public void movieInit() throws IOException, ParseException {
@@ -37,6 +42,24 @@ public class MovieServiceImp implements MovieService {
         TMDBMovieAPI tmdbApi = new TMDBMovieAPI();
         List<KobisDailyBox> koList = api.searchDailyBoxOfficeList();
         for (KobisDailyBox kobisDailyBox : koList) {
+            String movieCd = kobisDailyBox.getMovieCd();
+            if(movieInsertRepository.findByCode(movieCd) == null){
+                KobisMovieInfo movieInfo = api.searchMovieInfo(movieCd);
+                Movie3 movie = new Movie3();
+                movie.setAudiAcc(null);
+                movie.setCompanyCd(movieInfo.getCompanys().get(0).getCompanyCd());
+                movie.setDirectorNm(movieInfo.getDirectors().get(0).getPeopleNm());
+                movie.setMovieCd(movieCd);
+                movie.setMovieNm(movieInfo.getMovieNm());
+                movie.setMovieNmEn(movieInfo.getMovieNmEn());
+                movie.setNationAlt(movieInfo.getNationNm().get(0));
+                movie.setOpenDt(movieInfo.getOpenDt());
+                movie.setPrdYear(movieInfo.getPrdtYear());
+                movie.setRepGenreNm(movieInfo.getGenreNm().get(0));
+                movieInsertRepository.save(movie);
+            }
+            
+
             Movie movie = this.getByKobisId(kobisDailyBox.getMovieCd());
             
             // 영화진흥위원회에서 일별박스오피스를 받는데 고전영화가 들어옴, 버그인듯

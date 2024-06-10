@@ -36,6 +36,14 @@
 		LIMIT #{offset}, #{size};
 	</select>
 
+	<select id="findByCode" resultType="Movie3">
+		SELECT * FROM 
+        	movie3
+		WHERE 
+			movie_cd like '${code}%'
+	</select>
+
+
 	<select id="getCount" resultType="Integer">
 		SELECT COUNT(*) FROM movie3
 		<where>
@@ -46,6 +54,13 @@
 			</if>
 		</where>
 	</select>
+
+	<insert id="save" parameterType="movie3">
+		INSERT INTO 
+			movie3 (movie_cd, movie_nm, open_dt, rep_genre_nm, movie_nm_en, nation_alt, prd_year, director_nm, company_cd)
+		SELECT 
+			#{movieCd}, #{movieNm}, #{openDt}, #{repGenreNm}, #{movieNmEn}, #{nationAlt},#{prdYear}, #{directorNm}, #{companyCd}
+	</insert>
 
 
 	<!--	일일 박스오피스 데이터 넣기-->

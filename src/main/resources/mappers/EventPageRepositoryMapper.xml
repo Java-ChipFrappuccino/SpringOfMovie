@@ -50,7 +50,8 @@
         set
             title=#{title},
             contents=#{contents},
-            image_url=#{imageUrl}
+            start_date=#{startDate},
+            end_date=#{endDate}
         where
             id = #{id}
     </update>

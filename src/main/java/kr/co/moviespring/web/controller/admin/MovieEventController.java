@@ -67,7 +67,11 @@ public class MovieEventController {
     @PostMapping("edit")
     public String movieEventEdit(
         EventPage eventPage
+        ,@RequestParam("start-date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date sttDate
+        ,@RequestParam("end-date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
     ){
+        eventPage.setStartDate(sttDate);
+        eventPage.setEndDate(endDate);
         eventPageService.edit(eventPage);
         return "redirect:/admin/movie-event/list";
     }
