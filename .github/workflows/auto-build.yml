@@ -20,7 +20,7 @@ jobs:
           script: |
             cd webapps/SpringOfMovie/
             git pull
-            ./mvnw package
+            ./mvnw package -Dspring.profiles.active=prod
             cd ../
             rm -r ROOT/*
             cd SpringOfMovie/

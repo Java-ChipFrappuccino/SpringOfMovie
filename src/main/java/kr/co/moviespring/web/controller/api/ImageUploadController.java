@@ -25,9 +25,12 @@ public class ImageUploadController {
 
     @Autowired
     private final WebApplicationContext context;
-
+    //개발용 경로
     @Value("${file.upload-dir}")
     private String uploadDir;
+    //배포용 경로
+    @Value("${file.community-upload-dir}")
+    private String communityUploadDir;
 
     @Autowired
     private Environment env; //현재 프로필값을 얻는 객체
@@ -42,12 +45,15 @@ public class ImageUploadController {
         try {
             // 서버에 저장할 경로
             String uploadDirectory = Paths.get(uploadDir).toAbsolutePath().toString();
-            if (isProd()==false) {
-                String prodUploadDirectory = context.getServletContext().getRealPath(uploadDir);
+            System.out.println("uploadDir : " + uploadDir);
+            System.out.println("uploadDirectory : " + uploadDirectory);
+            System.out.println("isProd : " + isProd());
+
+            if (isProd()==true) {
+                uploadDirectory = context.getServletContext().getRealPath(communityUploadDir);
                 System.out.println("uploadDir : " + uploadDir);
                 System.out.println("uploadDirectory : " + uploadDirectory);
-                System.out.println("prodUploadDirectory : " + prodUploadDirectory);
-                System.out.println(isProd());
+                System.out.println("isProd : " + isProd());
             }
 
 
