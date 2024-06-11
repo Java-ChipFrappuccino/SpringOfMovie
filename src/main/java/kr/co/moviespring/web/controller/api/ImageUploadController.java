@@ -23,8 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageUploadController {
 
-//    @Autowired
-//    private final WebApplicationContext context;
+    @Autowired
+    private final WebApplicationContext context;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -41,11 +41,12 @@ public class ImageUploadController {
     public ResponseEntity<?> imageUpload(@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
         try {
             // 서버에 저장할 경로
-//            String uploadDirectory = context.getServletContext().getRealPath(uploadDir);
             String uploadDirectory = Paths.get(uploadDir).toAbsolutePath().toString();
             if (isProd()==false) {
+                String prodUploadDirectory = context.getServletContext().getRealPath(uploadDir);
                 System.out.println("uploadDir : " + uploadDir);
                 System.out.println("uploadDirectory : " + uploadDirectory);
+                System.out.println("prodUploadDirectory : " + prodUploadDirectory);
                 System.out.println(isProd());
             }
 

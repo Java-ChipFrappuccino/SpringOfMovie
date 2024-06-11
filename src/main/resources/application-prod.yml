@@ -1,3 +1,6 @@
 server:
-  port: 8080
+  port: 80
 
+file:
+  upload-dir: src/main/resources/static/image/upload #개발용
+  community-upload-dir: /home/springofmovie/webapps/image/upload #배포용
