@@ -93,8 +93,10 @@ public class MovieController {
         List<Movie> listAfter = movieService.getListAfter();
 
         // 서버로 돌면 풀어주기, 일단 그냥 리스트로
-        if(dailyList == null)
-            dailyList = list;
+        for (Movie movie : dailyList) {
+            if(movie == null)
+                dailyList = list;
+        }
 
         model.addAttribute("dlist", dailyList);
         model.addAttribute("list", list);
