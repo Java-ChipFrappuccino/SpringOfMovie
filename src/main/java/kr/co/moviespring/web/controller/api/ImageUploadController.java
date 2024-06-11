@@ -50,7 +50,8 @@ public class ImageUploadController {
             System.out.println("isProd : " + isProd());
 
             if (isProd()==true) {
-                uploadDirectory = context.getServletContext().getRealPath(communityUploadDir);
+//                uploadDirectory = context.getServletContext().getRealPath(communityUploadDir);
+                uploadDirectory = communityUploadDir;
                 System.out.println("uploadDir : " + uploadDir);
                 System.out.println("uploadDirectory : " + uploadDirectory);
                 System.out.println("isProd : " + isProd());
