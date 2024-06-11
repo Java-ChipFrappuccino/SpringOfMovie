@@ -277,11 +277,14 @@ function setLikeButtonEvent(review) {
         break;
       case 1:
         // alert("좋아요 완료");
+        likeBtn.classList.add("animate__rubberBand");
         likeBtn.classList.add("icon-color:accent-3");
         likeCount.innerText = Number(likeCount.innerText) + 1;
+
         break;
       case 0:
         // alert("제거완료");
+        likeBtn.classList.remove("animate__rubberBand");
         likeBtn.classList.remove("icon-color:accent-3");
         likeCount.innerText = Number(likeCount.innerText) - 1;
         break;
@@ -461,7 +464,7 @@ function setLikeButtonEvent(review) {
                                 </div>
                                 <div>${r.comments}</div>
                                 <div class="mt:1 d:inline-block line-height:2">
-                                    <span class="icon icon:thumbs_up ${r.likeStatus === 1 ? 'icon-color:accent-3' : ''}">아이콘</span>
+                                    <span class="icon icon:thumbs_up animate__animated animate__fast ${r.likeStatus === 1 ? 'icon-color:accent-3' : ''}">아이콘</span>
                                     <span class="like-count">${r.likeCount}</span>
 <!--                                    <button class="ml:2">좋아요</button>-->
                                 </div>

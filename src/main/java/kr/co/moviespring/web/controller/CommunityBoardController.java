@@ -124,7 +124,7 @@ public class CommunityBoardController {
         String defaultImagePath = "/image/popcorn3.jpeg"; //default_image
         String content = board.getContents();
         if (!content.contains("<img")) {
-            content = "<img class=\"bd-radius:4\" width=400px src='" + defaultImagePath + "' alt='Default Image' /><br />" + content;
+            content = "<img class=\"bd-radius:4\" width=100% height=100% style=\"max-width:40vh;\" src='" + defaultImagePath + "' alt='Default Image' /><br />" + content;
             board.setContents(content);
         }
 

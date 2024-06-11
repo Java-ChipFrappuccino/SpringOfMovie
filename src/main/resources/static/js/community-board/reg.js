@@ -123,7 +123,13 @@ function imageUploader(file, el) {
         processData : false,
         enctype : 'multipart/form-data',
         success : function(data) {
-            $(el).summernote('insertImage', "/image/upload/"+data, function($image) {
+            // const imageUrl = "/src/main/resources/static/image/upload/" + data;
+            // console.log(data.url);
+            // console.log(image.url);
+            // console.log(data);
+            // const imageUrl = data.url;
+            // console.log(imageUrl);
+            $(el).summernote('insertImage', data, function($image) {
                 $image.css('width', "50%");
             });
             // 값이 잘 넘어오는지 콘솔 확인 해보셔도됩니다.

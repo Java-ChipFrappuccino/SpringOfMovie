@@ -169,6 +169,16 @@ main{
 .status-change{
     transform: rotate(180deg);
 }
+.icon\:thumbs_up{
+    cursor: pointer;
+}
+/*.icon\:thumbs_up_fill{*/
+/*    cursor: pointer;*/
+/*    width: 22px;*/
+/*    height: 22px;*/
+/*    margin-right: 3px;*/
+/*}*/
+
 /* Media Queries*/
 @media (max-width: 1068px) {
     .test .avg-block {
