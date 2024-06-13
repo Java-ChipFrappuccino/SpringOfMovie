@@ -43,6 +43,7 @@ public class ImageUploadController {
     // @RequestParam은 자바스크립트에서 설정한 이름과 반드시 같아야합니다.
     public ResponseEntity<?> imageUpload(@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
         try {
+//            String uploadDirectory = isProd() ? communityUploadDir : uploadDir;
             // 서버에 저장할 경로
             String uploadDirectory = Paths.get(uploadDir).toAbsolutePath().toString();
             System.out.println("uploadDir : " + uploadDir);

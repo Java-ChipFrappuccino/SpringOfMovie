@@ -1,11 +1,19 @@
 $('#summernote').summernote({
-
+    placeholder: `커뮤니티 가이드라인을 준수해주세요.<br/><br/>
+                개인 정보는 공유하지 마세요.<br/> 악의적인 댓글, 스팸, 또는 부적절한 내용은 예고없이 삭제처리 될 수 있습니다.<br/>
+                아름다운 커뮤니티 문화를 이끌어가는 당신은 진정한 문화인!`,
+    // maximumImageFileSize: 5 * 1024 * 1024, //5MB 제한
+    // 글자수 제한
+    maxTextLength: 1000,
     // 에디터 크기 설정
-    height: 800,
+    height: 500,
+    maxHeight: 800,
     // 에디터 한글 설정
     lang: 'ko-KR',
     // 에디터에 커서 이동 (input창의 autofocus라고 생각하시면 됩니다.)
     toolbar: [
+        // 폰트 설정
+        ['fontname', ['fontname']],
         // 글자 크기 설정
         ['fontsize', ['fontsize']],
         // 글자 [굵게, 기울임, 밑줄, 취소 선, 지우기]
@@ -22,37 +30,40 @@ $('#summernote').summernote({
         ['insert',['picture']]
     ],
     // 추가한 글꼴
-    fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+    fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'sans-serif', '맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
     // 추가한 폰트사이즈
     fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72','96'],
     // focus는 작성 페이지 접속시 에디터에 커서를 위치하도록 하려면 설정해주세요.
     focus : true,
+    // 맞춤법 검사 끄기
+    spellCheck: false,
     // callbacks은 이미지 업로드 처리입니다.
     callbacks : {
-        onImageUpload : function(files, editor, welEditable) {
-            // 다중 이미지 처리를 위해 for문을 사용했습니다.
-            let maxFileSize = 5 * 1024 * 1024; // 2MB 제한
-            let totalFileSize = 0; // 전체 요청의 총 파일 크기
-            for (let i = 0; i < files.length; i++) {
-                if (files[i].size > maxFileSize) {
-                    alert('파일 크기는 5MB를 초과할 수 없습니다.');
-                    return;
-                }
-                totalFileSize += files[i].size;
-            }
-
-            let maxTotalFileSize = 10 * 1024 * 1024; // 전체 요청의 총 용량 제한: 10MB
-            // 전체 요청의 총 파일 크기가 제한을 초과하는 경우 알림
-            if (totalFileSize > maxTotalFileSize) {
-                alert('전체 파일의 크기는 10MB를 초과할 수 없습니다.');
-                return;
-            }
-
-            // 제한을 넘지 않은 파일은 업로드 처리
-            for (let i = 0; i < files.length; i++) {
-                imageUploader(files[i], this);
-            }
-        },
+        // onImageUpload: function(files, editor, welEditable) {
+        //     // 다중 이미지 처리를 위해 for문을 사용했습니다.
+        //     let maxFileSize = 5 * 1024 * 1024; // 5MB 제한
+        //     let totalFileSize = 0; // 전체 요청의 총 파일 크기
+        //     for (let i = 0; i < files.length; i++) {
+        //         if (files[i].size > maxFileSize) {
+        //             alert('파일 크기는 5MB를 초과할 수 없습니다.');
+        //             return;
+        //
+        //         }
+        //         totalFileSize += files[i].size;
+        //     }
+        //
+        //     let maxTotalFileSize = 10 * 1024 * 1024; // 전체 요청의 총 용량 제한: 10MB
+        //     // 전체 요청의 총 파일 크기가 제한을 초과하는 경우 알림
+        //     if (totalFileSize > maxTotalFileSize) {
+        //         alert('전체 파일의 크기는 10MB를 초과할 수 없습니다.');
+        //         return;
+        //     }
+        //
+        //     // 제한을 넘지 않은 파일은 업로드 처리
+        //     for (let i = 0; i < files.length; i++) {
+        //         imageUploader(files[i], this);
+        //     }
+        // },
         // 복붙할때 쓸때없는 스타일 태그 들어가는거 막는 설정
         onPaste: function(e) {
             let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
@@ -110,10 +121,11 @@ $(".note-editable").on("keypress", function(){
         return false;
     }
 });
-function imageUploader(file, el) {
+export default function imageUploader(file, el) {
     let formData = new FormData();
     formData.append('file', file);
-
+    console.log(file);
+    console.log(el);
     $.ajax({
         data : formData,
         type : "POST",
