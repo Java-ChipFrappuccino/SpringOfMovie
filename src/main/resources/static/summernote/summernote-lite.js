@@ -10,7 +10,7 @@
  * Date: 2021-10-14T21:15Z
  *
  */
-import imageUploader from "../js/community-board/reg.js";
+// import imageUploader from "../js/community-board/reg.js";
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("jQuery"));
@@ -9808,32 +9808,7 @@ var HintPopover = /*#__PURE__*/function () {
       onEnter: null,
       onFocus: null,
       onImageLinkInsert: null,
-      onImageUpload: function(files, editor, welEditable) {
-        // 다중 이미지 처리를 위해 for문을 사용했습니다.
-        let maxFileSize = 5 * 1024 * 1024; // 5MB 제한
-        let totalFileSize = 0; // 전체 요청의 총 파일 크기
-        for (let i = 0; i < files.length; i++) {
-          if (files[i].size > maxFileSize) {
-            console.log('파일 크기는 5MB를 초과할 수 없습니다.');
-            return;
-
-          }
-          totalFileSize += files[i].size;
-        }
-
-        let maxTotalFileSize = 10 * 1024 * 1024; // 전체 요청의 총 용량 제한: 10MB
-        // 전체 요청의 총 파일 크기가 제한을 초과하는 경우 알림
-        if (totalFileSize > maxTotalFileSize) {
-          alert('전체 파일의 크기는 10MB를 초과할 수 없습니다.');
-          return;
-        }
-
-        // 제한을 넘지 않은 파일은 업로드 처리
-        for (let i = 0; i < files.length; i++) {
-          imageUploader(files[i], this);
-
-        }
-      },
+      onImageUpload: null,
       onImageUploadError: null,
       onInit: null,
       onKeydown: null,
