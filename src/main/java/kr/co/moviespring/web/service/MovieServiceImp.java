@@ -58,10 +58,10 @@ public class MovieServiceImp implements MovieService {
                 movie.setRepGenreNm(movieInfo.getGenreNm().get(0));
                 movieInsertRepository.save(movie);
             }
-            
+
 
             Movie movie = this.getByKobisId(kobisDailyBox.getMovieCd());
-            
+
             // 영화진흥위원회에서 일별박스오피스를 받는데 고전영화가 들어옴, 버그인듯
             // api 요청 파라미터 개수를 최소화했더니 일단 해결됨. 예외처리에 대해 고민
             // 영화가 없으면 다시 등록이 필요함. 일단 보류
@@ -77,7 +77,7 @@ public class MovieServiceImp implements MovieService {
             //     // 일단 한국어 없으면 영문으로
             //     if(tmdbCode == null)
             //         tmdbCode = tmdbApi.serchMovie(kmi.getMovieNmEn(), strYear);
-                
+
             //     tmdbMovieDetail = tmdbApi.movieDetail(tmdbCode);
 
             //     if(tmdbMovieDetail == null){
@@ -113,7 +113,7 @@ public class MovieServiceImp implements MovieService {
             //     // movie를 db에 저장하고 생성된 ID 가져옴
             //     Long movieID = repository.save(movie);
             // }
-            
+
             list.add(movie);
         }
         BatchSchedulerConfig.setList(list);

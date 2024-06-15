@@ -15,7 +15,9 @@ public interface CommunityBoardService {
     void editById(Long id, String title, String contents);
     //카테고리별 게시글 목록//
     List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size);
+    List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size, boolean isBest);
     List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size, String query);
+    List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size, String query, boolean isBest);
     //게시글 상세//
     CommunityBoardView getById(Long id);
     // CommunityBoard getById(Long id);

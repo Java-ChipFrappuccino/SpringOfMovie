@@ -22,7 +22,7 @@ public interface CommunityBoardRepository {
     int delete(Long id);
 
     // 카테고리별 게시글 목록
-    List<CommunityBoardView> findAllByCategoryId(Long categoryId, String query, int offset, int size);
+    List<CommunityBoardView> findAllByCategoryId(Long categoryId, boolean isBest, String query, int offset, int size);
 
     //게시글 디테일페이지
     CommunityBoardView findById(Long id);

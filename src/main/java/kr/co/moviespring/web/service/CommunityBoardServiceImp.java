@@ -34,20 +34,31 @@ public class CommunityBoardServiceImp implements CommunityBoardService {
         communityBoardRepository.update(id, title, contents);
     }
 
-
-    //카테고리별+검색쿼리값 게시글 목록//
+    //인기글 카테고리+검색쿼리값 게시글 목록//
     @Override
-    public List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size, String query) {
+    public List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size, String query, boolean isBest) {
         //int size = 20;
         int offset = (page-1)*size;
-        List<CommunityBoardView> list = communityBoardRepository.findAllByCategoryId(categoryId, query, offset, size);
+        List<CommunityBoardView> list = communityBoardRepository.findAllByCategoryId(categoryId, isBest, query, offset, size);
         return list;
     }
 
     //카테고리별 게시글 목록//
     @Override
     public List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size) {
-        return getList(categoryId, page, size, null);
+        return getList(categoryId, page, size, null, false);
+    }
+
+    //인기글 카테고리 게시글 목록//
+    @Override
+    public List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size, boolean isBest) {
+        return getList(categoryId, page, size, null, isBest);
+    }
+
+    //카테고리별+검색쿼리값 게시글 목록//
+    @Override
+    public List<CommunityBoardView> getList(Long categoryId, Integer page, Integer size, String query) {
+        return getList(categoryId, page, size, query, false);
     }
 
     //게시글 상세//

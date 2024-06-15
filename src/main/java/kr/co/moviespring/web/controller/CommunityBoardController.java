@@ -41,8 +41,13 @@ public class CommunityBoardController {
 
         for (int i = 0; i < categories.size(); i++) {
             Long categoryId = categories.get(i).getId();
+            if (categoryId == 1) { // 1번 카테고리는 인기글이므로 따로 리스트를 담아서 보내줌
+                List <CommunityBoardView> list = communityBoardService.getList(categoryId,1, 5,true);
+                model.addAttribute("list"+(i+1), list);
+                continue;
+            }
             List <CommunityBoardView> list = communityBoardService.getList(categoryId,1, 5);
-            model.addAttribute("list"+(i+1), list); // list1,2,3,4,5로 보내려고 +1해줌 특별한 의미 없음
+            model.addAttribute("list"+(i+1), list); // list 1,2,3,4,5로 보내려고 +1해줌 특별한 의미 없음
         }
         model.addAttribute("categories", categories);
 
@@ -56,14 +61,26 @@ public class CommunityBoardController {
                         @RequestParam(name = "q",required = false) String query,
                         @RequestParam(name = "p",required = false, defaultValue = "1") Integer page,
                         Model model){
+        boolean isBest = false;
         Category category = categoryService.getByName(categoryName);
         Long categoryId = category.getId();
-        List <CommunityBoardView> list = communityBoardService.getList(categoryId, page, 20); // size(한번에 가져오는 게시글 갯수, 추후에 수정시 페이져갯수도 수정해야함)
+        List <CommunityBoardView> list;
         int count = 0;
-        count = communityBoardService.getCount(categoryId);
+        count = communityBoardService.getCount(null, categoryId); // 1번 카테고리(인기글)에 저장된 글이 없으므로(현재는 전체 카테고리에서 인기도 산정후 가져옴) 카테고리가 1이면 전체글 갯수를 가져옴
 
+        if ("best".equals(categoryName)) {
+            isBest = true;
+            // 현재는 (좋아요수 * 0.5 + 댓글갯수 * 0.3 + 조회수 * 0.2)의 비율로 인기도를 산정후 전체글 목록을 뽑아오는데 추후 날짜 조건을 수정해야할듯 일주일이나 매 달 기준등등... 또한 다른 카테고리에도 인기글 목록을 도입할지 고민중
+            list = communityBoardService.getList(categoryId, page, 20, isBest); //인기글 요청시 isBest 변수 활성화 
+            if (query != null && !query.isBlank()) {
+                list = communityBoardService.getList(categoryId, page, 20, query, isBest);
+                count = communityBoardService.getCount(null, categoryId, query);
+            }
+        } else {
+            list = communityBoardService.getList(categoryId, page, 20); // size(한번에 가져오는 게시글 갯수, 추후에 수정시 페이져갯수도 수정해야함)
+        }
 
-        if (query != null) {
+        if (query != null && !query.isBlank()) {
             list = communityBoardService.getList(categoryId, page, 20, query);
             count = communityBoardService.getCount(null, categoryId, query);
         }

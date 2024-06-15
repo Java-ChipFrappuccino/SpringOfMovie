@@ -23,19 +23,28 @@
 <!--        FROM community_board c-->
 <!--        JOIN member m ON c.member_id = m.id-->
 <!--        ORDER BY reg_date DESC-->
-
-        select * from community_board_view
-
+        <if test="isBest == true">
+            SELECT *,(v.like_count * 0.5 + v.comment_count * 0.3 + v.hit * 0.2) AS popularity_score
+            FROM community_board_view v
+        </if>
+        <if test="isBest != true">
+            select * from community_board_view
+        </if>
         <where>
-            <if test="categoryId != null">
+            <if test="categoryId != null and categoryId != 1">
                 category_id = #{categoryId}
             </if>
             <if test="query != null">
-                AND title LIKE '%${query}%'
+                AND title LIKE CONCAT('%', #{query}, '%')
             </if>
         </where>
-        ORDER BY reg_date DESC
-        LIMIT #{offset} ,#{size};
+        <if test="isBest == true">
+            ORDER BY popularity_score DESC, reg_date DESC
+        </if>
+        <if test="isBest != true">
+            ORDER BY reg_date DESC
+        </if>
+        LIMIT #{offset} ,#{size}
     </select>
 
     <!--게시글 상세-->
@@ -103,7 +112,7 @@
             <if test="memberId != null">
                 member_id = #{memberId}
             </if>
-            <if test="categoryId != null">
+            <if test="categoryId != null and categoryId != 1">
                 AND category_id = #{categoryId}
             </if>
             <if test="query != null">
