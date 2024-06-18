@@ -179,6 +179,18 @@ function imageUploader(file, el) {
         }
     });
 }
+function deleteSummernoteImageFile(imageName) {
+    data = new FormData()
+    data.append('file', imageName)
+    $.ajax({
+        data: data,
+        type: 'POST',
+        url: 'deleteSummernoteImageFile',
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+    })
+}
 // 게시글 필터링 설정
 {
     const contentField = document.querySelector(".note-editable");
