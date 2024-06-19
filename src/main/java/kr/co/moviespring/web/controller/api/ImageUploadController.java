@@ -7,15 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 @RestController
@@ -38,6 +37,26 @@ public class ImageUploadController {
     private Boolean isProd() {
         return env.acceptsProfiles("prod");
     }
+
+//    @RequestMapping(value = "/deleteSummernoteImageFile", produces = "application/json; charset=utf8")
+//    @ResponseBody
+//    public void deleteSummernoteImageFile(@RequestParam("file") String fileName) {
+//        // 폴더 위치
+//        String filePath = realPath + "/upload/image/fileupload/tmp/";
+//
+//        // 해당 파일 삭제
+//        deleteFile(filePath, fileName);
+//    }
+//
+//    // 파일 하나 삭제
+//    private void deleteFile(String filePath, String fileName) {
+//        Path path = Paths.get(filePath, fileName);
+//        try {
+//            Files.delete(path);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @PostMapping(value = "/image-upload")
     // @RequestParam은 자바스크립트에서 설정한 이름과 반드시 같아야합니다.
