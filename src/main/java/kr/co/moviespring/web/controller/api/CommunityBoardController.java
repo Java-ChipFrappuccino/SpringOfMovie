@@ -34,7 +34,7 @@ public class CommunityBoardController {
                          @AuthenticationPrincipal CustomUserDetails userDetails) {
 //        @RequestBody LikeRequest LikeRequest
         if (userDetails == null)
-            return 100; //로그인하지 않은 유저가 좋아요 누를시 100 전송
+            return 100; //로그인하지 않은 유저가 좋아요 누를시 100을 전송
 
         Long memberId = userDetails.getId();
         int result = commentsService.editById(commentId, memberId, comment);
@@ -48,7 +48,7 @@ public class CommunityBoardController {
                             @AuthenticationPrincipal CustomUserDetails userDetails) {
 //        @RequestBody LikeRequest LikeRequest
         if (userDetails == null)
-            return 100; //로그인하지 않은 유저가 좋아요 누를시 100 전송
+            return 100; //로그인하지 않은 유저가 좋아요 누를시 100을 전송
 
 //        Long memberId = userDetails.getId();
         int result = commentsService.deleteById(commentId);
